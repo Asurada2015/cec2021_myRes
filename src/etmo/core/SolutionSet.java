@@ -139,7 +139,7 @@ public class SolutionSet implements Serializable {
 	 * @return The index of the best Solution attending to the comparator or
 	 *         <code>-1<code> if the SolutionSet is empty
 	 */
-	int indexBest(Comparator comparator) {
+    public int indexBest(Comparator comparator) {
 		if ((solutionsList_ == null) || (this.solutionsList_.isEmpty())) {
 			return -1;
 		}
@@ -494,4 +494,26 @@ public class SolutionSet implements Serializable {
 	public void setRemove(boolean remove) {
 		this.remove = remove;
 	}
+
+    public void Suppress() {
+		int decisionnum = solutionsList_.get(0).getNumberOfObjectives();
+		double diff;
+		for (int k = 0; k < solutionsList_.size(); k++) {
+			for (int l = k + 1; l < solutionsList_.size(); l++) {
+				int m = 0;
+				for (m = 0; m < decisionnum; m++) {
+					diff=solutionsList_.get(k).getObjective(m)-solutionsList_.get(l).getObjective(m);
+					if(diff<0)
+						diff=-diff;
+					if(diff>0.000001){
+						break;
+					}
+				}
+				if (m == decisionnum) {
+					solutionsList_.remove(l);
+					l--;
+				}
+			}
+		}
+    }
 } // SolutionSet

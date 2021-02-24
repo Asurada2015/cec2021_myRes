@@ -90,7 +90,7 @@ public class MaOEAC_EGG_main {
             for (int tsk=0;tsk<taskNumber;tsk++) {
 
                 problemSet2 = problemSet1.getTask(tsk);
-                algorithm = new MaOEAC(problemSet2);
+                algorithm = new MaOEAC_EGG(problemSet2);
 
                 String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
                 //String pf = "PF/StaticPF/" + "convex.pf";

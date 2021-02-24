@@ -21,14 +21,13 @@
 
 package etmo.operators.crossover;
 
-import jmetal.core.Solution;
+import etmo.core.Solution;
 import jmetal.encodings.solutionType.ArrayRealSolutionType;
-import jmetal.encodings.solutionType.RealSolutionType;
-import jmetal.operators.crossover.Crossover;
-import jmetal.util.Configuration;
-import jmetal.util.JMException;
-import jmetal.util.PseudoRandom;
-import jmetal.util.wrapper.XReal;
+import etmo.encodings.solutionType.RealSolutionType;
+import etmo.util.Configuration;
+import etmo.util.JMException;
+import etmo.util.PseudoRandom;
+import etmo.util.wrapper.XReal;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -173,7 +172,7 @@ public class EGG extends Crossover {
           "parents");
       Class cls = String.class;
       String name = cls.getName(); 
-      throw new JMException("Exception in " + name + ".execute()") ;
+
     } // if
 
     if (!(VALID_TYPES.contains(parents[0].getType().getClass())  &&
@@ -184,7 +183,7 @@ public class EGG extends Crossover {
 
       Class cls = String.class;
       String name = cls.getName(); 
-      throw new JMException("Exception in " + name + ".execute()") ;
+
     } // if 
     
     if (parameters_.get("probability") != null)
