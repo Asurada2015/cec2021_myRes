@@ -28,7 +28,7 @@ MOEAD_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 2; pCase <= 2; pCase++ ){
+        for (int pCase = 3; pCase <= 8; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();
@@ -83,7 +83,7 @@ MOEAD_main {
             }
 
             int taskNumber = problemSet1.size();
-            System.out.println("taskNumber = "+taskNumber);
+//            System.out.println("taskNumber = "+taskNumber);
             for (int tsk=0; tsk < taskNumber; tsk++) {
 
                 problemSet2 = problemSet1.getTask(tsk);
@@ -91,10 +91,10 @@ MOEAD_main {
 
                 String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
 
-                algorithm.setInputParameter("populationSize", 100);
-                algorithm.setInputParameter("maxEvaluations", 100 * 1000);
+                algorithm.setInputParameter("populationSize", 10000);
+                algorithm.setInputParameter("maxEvaluations", 10000 * 1000);
 
-                algorithm.setInputParameter("dataDirectory", "D:\\Workspace\\EMTO2021\\myRes\\MTO-cec2021-\\resources\\weightVectorFiles\\moead");
+                algorithm.setInputParameter("dataDirectory", "resources/weightVectorFiles/moead");
 
 
                 algorithm.setInputParameter("T", 20);
@@ -127,10 +127,13 @@ MOEAD_main {
                         problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
                     double igd = indicator.getIGD(population);
                     aveIGD += igd;
-                    System.out.println(i + "\t" + form.format(igd));
+//                    System.out.println(i + "\t" + form.format(igd));
+//                    System.out.println(i + "\t" + form.format(igd));
+//                    resources/weightVectorFiles/moead/W3D_100.dat
                 }
-                System.out.println("Average IGD for " + problemSet2.get(0).getName() + ": " + form.format(aveIGD / times));
-                System.out.println();
+//                System.out.println("Average IGD for " + problemSet2.get(0).getName() + ": " + form.format(aveIGD / times));
+                System.out.println(form.format(aveIGD / times));
+                //                System.out.println();
 
 
 

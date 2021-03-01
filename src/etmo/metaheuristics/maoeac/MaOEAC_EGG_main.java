@@ -29,7 +29,7 @@ public class MaOEAC_EGG_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 9; pCase <= 16; pCase++ ){
+        for (int pCase = 3; pCase <= 4; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();
@@ -95,7 +95,7 @@ public class MaOEAC_EGG_main {
                 String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
                 //String pf = "PF/StaticPF/" + "convex.pf";
                 //System.out.println(pf);
-                algorithm.setInputParameter("populationSize", 100);
+                algorithm.setInputParameter("populationSize", 10000);
                 algorithm.setInputParameter("maxGenerations",1000);
 
 //                parameters = new HashMap();
@@ -107,8 +107,8 @@ public class MaOEAC_EGG_main {
                 //Crossover Operators
                 parameters = new HashMap();
                 parameters.put("distributionIndex", 30.0);
-                parameters.put("Dr", 0.2);
                 parameters.put("Lr", 0.2);
+                parameters.put("Dr", 0.2);
                 parameters.put("Er", 0.7);
                 crossover = CrossoverFactory.getCrossoverOperator("EGG",parameters);
 
@@ -130,14 +130,14 @@ public class MaOEAC_EGG_main {
 //                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
                 DecimalFormat form = new DecimalFormat("#.####E0");
                 QualityIndicator indicator = new QualityIndicator(problemSet2.get(0), pf);
-                int times = 21;
+                int times = 1;
                 double aveIGD = 0;
                 for (int i = 1; i <= times; i++) {
                     SolutionSet population = algorithm.execute();
                     Ranking ranking = new Ranking(population);
                     population = ranking.getSubfront(0);
-//                    population.printObjectivesToFile("MaOEAC_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
-//                            problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
+                    population.printObjectivesToFile("MaOEAC_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
+                            problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
                     double igd = indicator.getIGD(population);
                     aveIGD += igd;
 //                    System.out.println(i + "\t" + form.format(igd));
