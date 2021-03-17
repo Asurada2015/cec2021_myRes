@@ -95,6 +95,7 @@ public class MMZDT extends Problem {
 
 		//xII = transformVariables(xII);
 
+
 		double f1 = evalF1(xI);
 		double g = evalG(xII) + 1;
 		double f2 = g * evalH(f1, g);

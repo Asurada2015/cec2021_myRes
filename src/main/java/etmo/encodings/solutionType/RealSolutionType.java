@@ -25,6 +25,7 @@ import etmo.core.ProblemSet;
 import etmo.core.SolutionType;
 import etmo.core.Variable;
 import etmo.encodings.variable.Real;
+import etmo.util.JMException;
 
 /**
  * Class representing a solution type composed of real variables
@@ -34,7 +35,7 @@ public class RealSolutionType extends SolutionType {
 	/**
 	 * Constructor
 	 * 
-	 * @param problem
+	 * @param problemSet
 	 *            Problem to solve
 	 */
 	public RealSolutionType(ProblemSet problemSet) {
@@ -44,11 +45,19 @@ public class RealSolutionType extends SolutionType {
 	/**
 	 * Creates the variables of the solution
 	 */
-	public Variable[] createVariables() {
+	public Variable[] createVariables() throws JMException {
 		Variable[] variables = new Variable[problemSet_.getMaxDimension()];
 
 		for (int var = 0; var < problemSet_.getMaxDimension(); var++)
 			variables[var] = new Real(problemSet_.getUnifiedLowerLimit(), problemSet_.getUnifiedUpperLimit());
+
+//		for (int var = 0; var < problemSet_.getMaxDimension(); var++){
+//			variables[var] = new Real(problemSet_.getUnifiedLowerLimit(), problemSet_.getUnifiedUpperLimit());
+//			variables[var].setValue(0.4);
+//		}
+
+
+
 
 		return variables;
 	} // createVariables

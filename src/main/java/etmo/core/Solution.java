@@ -25,6 +25,8 @@ package etmo.core;
 
 
 
+import etmo.util.JMException;
+
 import java.io.Serializable;
 
 /**
@@ -160,7 +162,7 @@ public class Solution implements Serializable {
 	 *            The problem to solve
 	 * @throws ClassNotFoundException
 	 */
-	public Solution(ProblemSet problemSet) throws ClassNotFoundException {
+	public Solution(ProblemSet problemSet) throws ClassNotFoundException, JMException {
 		problemSet_ = problemSet;
 		type_ = problemSet.getSolutionType();
 		numberOfObjectives_ = problemSet.getTotalNumberOfObjs();
@@ -200,7 +202,7 @@ public class Solution implements Serializable {
 
 	} // Solution
 
-	static public Solution getNewSolution(ProblemSet problemSet) throws ClassNotFoundException {
+	static public Solution getNewSolution(ProblemSet problemSet) throws ClassNotFoundException, JMException {
 		return new Solution(problemSet);
 	}
 
@@ -753,7 +755,7 @@ public class Solution implements Serializable {
 	 *            The problem to solve
 	 * @throws ClassNotFoundException
 	 */
-	public Solution(Problem problem) throws ClassNotFoundException {
+	public Solution(Problem problem) throws ClassNotFoundException, JMException {
 //		problem_ = problem;
 		type_ = problem.getSolutionType();
 		numberOfObjectives_ = problem.getNumberOfObjectives();
@@ -784,7 +786,7 @@ public class Solution implements Serializable {
 		isMarked = false;
 	} // Solution
 
-	public Solution(Problem problem, int groupSize) throws ClassNotFoundException {
+	public Solution(Problem problem, int groupSize) throws ClassNotFoundException, JMException {
 
 		type_ = problem.getSolutionType();
 		numberOfObjectives_ = problem.getNumberOfObjectives();
@@ -815,7 +817,7 @@ public class Solution implements Serializable {
 	} // Solution
 
 	static public Solution getNewSolution(Problem problem)
-			throws ClassNotFoundException {
+			throws ClassNotFoundException, JMException {
 		return new Solution(problem);
 	}
 

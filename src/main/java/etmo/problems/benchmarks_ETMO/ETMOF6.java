@@ -45,9 +45,13 @@ public class ETMOF6 {
 	
 	public static ProblemSet getT2() throws IOException {
 		ProblemSet problemSet = new ProblemSet(1);
-		
+
+
 		MMZDT prob = new MMZDT(50, 1, -100,100);
 		prob.setHType("concave");//Shape Function
+//		我觉得这样对
+//		MMDTLZ prob = new MMDTLZ(2, 50, 1, -100,100);
+//		prob.setHType("convex");//Shape Function
 		prob.setGType("HF5");//Landscape Function
 		
 		double[] shiftValues = IO.readShiftValuesFromFile("MData/CEC2021/benchmark_6/bias_2");

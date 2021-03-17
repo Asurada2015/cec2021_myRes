@@ -93,8 +93,10 @@ public class MMIDTLZ extends Problem {
 
 		double g = evalG(xII);
 
+
 		solution.setGFunValue(1 + g);
-		
+
+//		难道MMIDLZ的Form都是F4
 		for (int i = 0; i < numberOfObjectives_; i++)
 			f[i] = (1 + g)*h[i];
 

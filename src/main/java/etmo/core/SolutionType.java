@@ -21,6 +21,8 @@
 
 package etmo.core;
 
+import etmo.util.JMException;
+
 /**
  * Abstract class representing solution types, which define the types of the
  * variables constituting a solution
@@ -44,7 +46,7 @@ public abstract class SolutionType {
 	/**
 	 * Abstract method to create the variables of the solution
 	 */
-	public abstract Variable[] createVariables() throws ClassNotFoundException;
+	public abstract Variable[] createVariables() throws ClassNotFoundException, JMException;
 
 	/**
 	 * Copies the decision variables

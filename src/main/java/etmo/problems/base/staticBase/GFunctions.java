@@ -211,14 +211,16 @@ public class GFunctions {
 	
 	
 	
-	/*HF1: Hybrid Function 1*/
+//	/*HF1: Hybrid Function 1*/   F4_1
 	public static double getHF1(double x[], double[] shiftValues, double[][] rotationMatrix) {
 		double Fstar=0.0;
 		int dim = x.length;
 		shiftValues_ = shiftValues;
 		rotationMatrix_ = rotationMatrix;
 		shiftVariables(x);
-		x=rotateVariables(x);	
+		x=rotateVariables(x);
+
+//		按粗均匀比例分组
 		double[] p = {0.3,0.3,0.4};
 		int n1 = (int)Math.ceil(p[0]*dim);			
 		int n2 = (int)Math.ceil(p[1]*dim);
@@ -233,7 +235,8 @@ public class GFunctions {
 		for (int i = n1; i < n1+n2; i++)
 			xII[i-n1]=x[i];		
 		for (int i = n1+n2; i < dim; i++)
-			xIII[i-n1-n2]=x[i];		
+			xIII[i-n1-n2]=x[i];
+
 		return BaseFunctions.getCigar(xI) + BaseFunctions.getRastrigin(xII) + BaseFunctions.getMSchwefel(xIII) + Fstar;
 	}	
 

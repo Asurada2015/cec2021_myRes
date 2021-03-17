@@ -63,15 +63,21 @@ public class MMLZ extends Problem {
 		for (int i = numberOfObjectives_ - 1; i < numberOfVariables_; i++)
 			xII[i - numberOfObjectives_ + 1] = vars[i];
 
-//		决策变量旋转，变换
+//		决策变量：a.减去一个值  b.乘以一个矩阵
 		xII = transformVariables(xII);
-		
+
+//		distance via 分组，商和余数
 		int quotient = (numberOfVariables_ - numberOfObjectives_ + 1)/numberOfObjectives_;
 		int remainder = (numberOfVariables_ - numberOfObjectives_ + 1)%numberOfObjectives_;
 
+//		distance 分组按照 m 隔开
+//		xIII存储分组后的变量，index存储变量在总变量中的原始标号
 		double[][] xIII = new double[numberOfObjectives_][];
 		int[][] index = new int[numberOfObjectives_][];
+
+
 		for(int i=0; i<numberOfObjectives_; i++){
+//			=>if(remainder > 0)
 			if(remainder > i){
 				xIII[i] = new double[quotient+1];
 				index[i] = new int[quotient+1];

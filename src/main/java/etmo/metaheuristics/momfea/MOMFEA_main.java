@@ -24,7 +24,7 @@ public class MOMFEA_main {
 		HashMap parameters; // Operator parameters
 
 
-		for (int pCase = 1; pCase <= 16; pCase++ ){
+		for (int pCase = 1; pCase <= 2; pCase++ ){
 			switch (pCase){
 				case 1:
 					problemSet = ETMOF17.getProblem();
@@ -100,7 +100,8 @@ public class MOMFEA_main {
 
 			// Mutation operator
 			parameters = new HashMap();
-			parameters.put("probability", 1.0 / problemSet.getMaxDimension());
+			parameters.put("probability", 1.0 /
+					problemSet.getMaxDimension());
 			parameters.put("distributionIndex", 20.0);
 			mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
 

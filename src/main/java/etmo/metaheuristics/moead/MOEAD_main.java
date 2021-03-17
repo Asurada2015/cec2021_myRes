@@ -1,35 +1,34 @@
-package etmo.metaheuristics.maoeac;
+package etmo.metaheuristics.moead;
 
 import etmo.core.Algorithm;
 import etmo.core.Operator;
 import etmo.core.ProblemSet;
 import etmo.core.SolutionSet;
-import etmo.operators.crossover.Crossover;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
-import etmo.operators.selection.SelectionFactory;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
-import etmo.util.Ranking;
-
 
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
-public class MaOEAC_EGG_main {
-    public static void main(String[] args) throws IOException, JMException, ClassNotFoundException, jmetal.util.JMException {
+public class
+
+MOEAD_main {
+    public static void main(String args[]) throws IOException, JMException, ClassNotFoundException {
         ProblemSet problemSet1; // The problem to solve
         ProblemSet problemSet2;
+
         Algorithm algorithm; // The algorithm to use
-        Crossover crossover; // Crossover operator
+        Operator crossover; // Crossover operator
         Operator mutation; // Mutation operator
         Operator selection;
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 3; pCase <= 4; pCase++ ){
+        for (int pCase = 5; pCase <= 5; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();
@@ -77,80 +76,75 @@ public class MaOEAC_EGG_main {
                     problemSet1 = ETMOF15.getProblem();
                     break;
                 case 16:
-                    problemSet1 = ETMOF16.getProblem();
+                    problemSet1 = ETMOF25.getProblem();
                     break;
                 default:
                     problemSet1 = ETMOF1.getProblem();
             }
 
-
             int taskNumber = problemSet1.size();
 //            System.out.println("taskNumber = "+taskNumber);
-            System.out.println("TaskID\t" + "IGD for " + problemSet1.get(0).getName()+" to " +problemSet1.get(taskNumber-1).getName());
-            for (int tsk=0;tsk<taskNumber;tsk++) {
+            for (int tsk=0; tsk < taskNumber; tsk++) {
 
                 problemSet2 = problemSet1.getTask(tsk);
-                algorithm = new MaOEAC_EGG(problemSet2);
+                algorithm = new MOEAD(problemSet2);
 
                 String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
-                //String pf = "PF/StaticPF/" + "convex.pf";
-                //System.out.println(pf);
-                algorithm.setInputParameter("populationSize", 10000);
-                algorithm.setInputParameter("maxGenerations",1000);
 
-//                parameters = new HashMap();
-//                parameters.put("probability", 1.0);
-//                parameters.put("distributionIndex", 20.0);
-////                crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover", parameters);
-//                crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
+                algorithm.setInputParameter("populationSize", 100);
+                algorithm.setInputParameter("maxEvaluations", 100 * 1000);
 
-                //Crossover Operators
+                algorithm.setInputParameter("dataDirectory", "resources/weightVectorFiles/moead");
+
+
+                algorithm.setInputParameter("T", 20);
+                algorithm.setInputParameter("delta", 0.9);
+                algorithm.setInputParameter("nr", 2);
+
                 parameters = new HashMap();
-                parameters.put("distributionIndex", 30.0);
-                parameters.put("Lr", 0.2);
-                parameters.put("Dr", 0.2);
-                parameters.put("Er", 0.7);
-                crossover = CrossoverFactory.getCrossoverOperator("EGG",parameters);
+                parameters.put("CR", 1.0);
+                parameters.put("F", 0.5);
+                crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover",parameters);
 
                 // Mutation operator
                 parameters = new HashMap();
-                parameters.put("probability", 1.0 / problemSet2.getMaxDimension());
+                parameters.put("probability", 1.0 / problemSet2.get(0).getNumberOfVariables());
                 parameters.put("distributionIndex", 20.0);
                 mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);
 
-                // Selection Operator
-                parameters = null ;
-                selection = SelectionFactory.getSelectionOperator("BinaryTournament", parameters) ;
 
-                // Add the operators to the algorithm
                 algorithm.addOperator("crossover", crossover);
                 algorithm.addOperator("mutation", mutation);
-                algorithm.addOperator("selection", selection);
 
-//                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
+                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
                 DecimalFormat form = new DecimalFormat("#.####E0");
                 QualityIndicator indicator = new QualityIndicator(problemSet2.get(0), pf);
                 int times = 1;
                 double aveIGD = 0;
                 for (int i = 1; i <= times; i++) {
                     SolutionSet population = algorithm.execute();
-                    Ranking ranking = new Ranking(population);
-                    population = ranking.getSubfront(0);
-                    population.printObjectivesToFile("MaOEAC_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
-                            problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
+                    population.printObjectivesToFile("MOEAD_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
+                        problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
                     double igd = indicator.getIGD(population);
                     aveIGD += igd;
 //                    System.out.println(i + "\t" + form.format(igd));
+//                    System.out.println(i + "\t" + form.format(igd));
+//                    resources/weightVectorFiles/moead/W3D_100.dat
                 }
 //                System.out.println("Average IGD for " + problemSet2.get(0).getName() + ": " + form.format(aveIGD / times));
-//                System.out.println();
-//                System.out.println(tsk+"\t"+form.format(aveIGD / times));
                 System.out.println(form.format(aveIGD / times));
+                //                System.out.println();
+
+
+
 
             }
+
         }
 
 
 
-    }
+
+
+        }
 }
