@@ -9,6 +9,7 @@ import etmo.operators.mutation.MutationFactory;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
+import org.uma.jmetal.util.chartcontainer.ChartContainerWithReferencePoints;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -130,6 +131,7 @@ MOEAD_main {
 //                    System.out.println(i + "\t" + form.format(igd));
 //                    System.out.println(i + "\t" + form.format(igd));
 //                    resources/weightVectorFiles/moead/W3D_100.dat
+
                 }
 //                System.out.println("Average IGD for " + problemSet2.get(0).getName() + ": " + form.format(aveIGD / times));
                 System.out.println(form.format(aveIGD / times));
