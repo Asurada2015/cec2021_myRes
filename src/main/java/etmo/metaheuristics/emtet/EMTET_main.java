@@ -24,7 +24,7 @@ public class EMTET_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 1; pCase <= 8; pCase++ ) {
+        for (int pCase = 1; pCase <= 16; pCase++ ) {
             switch (pCase) {
                 case 1:
                     problemSet = ETMOF1.getProblem();
@@ -88,7 +88,7 @@ public class EMTET_main {
             algorithm = new EMTET(problemSet);
 
             algorithm.setInputParameter("populationSize",100);
-            algorithm.setInputParameter("maxEvaluations",100*taskNumber * 1000);
+            algorithm.setInputParameter("maxEvaluations",100 * taskNumber * 1000);
             algorithm.setInputParameter("transferNum",10);
 
             parameters = new HashMap();
@@ -115,9 +115,9 @@ public class EMTET_main {
 
             DecimalFormat form = new DecimalFormat("#.####E0");
 
-            System.out.println("RunID\t" + "IGD for "+problemSet.get(0).getName()+" to "+problemSet.get(taskNumber-1).getName());
+//            System.out.println("RunID\t" + "IGD for "+problemSet.get(0).getName()+" to "+problemSet.get(taskNumber-1).getName());
 
-            int times = 3;
+            int times = 21;
 
             double ave[] = new double[taskNumber];
             for (int t = 1; t <= times; t++) {
@@ -144,7 +144,7 @@ public class EMTET_main {
                 }
 
                 double igd;
-                System.out.print(t + "\t");
+//                System.out.print(t + "\t");
                 for(int i = 0; i < taskNumber; i++){
                     QualityIndicator indicator = new QualityIndicator(problemSet.get(i), pf[i]);
                     if(resPopulation[i].size()==0)
@@ -153,10 +153,10 @@ public class EMTET_main {
 //                        problemSet.get(i).getName()+ "_" + problemSet.get(i).getNumberOfVariables() + "D_run"+t+".txt");
 
                     igd =  indicator.getIGD(resPopulation[i]);
-                    System.out.print(form.format(igd) + "\t" );
+//                    System.out.print(form.format(igd) + "\t" );
                     ave[i] += igd;
                 }
-                System.out.println("");
+//                System.out.println("");
             }
 
 //            System.out.println();

@@ -30,7 +30,7 @@ public class MOMFEAII_main {
 		
 		HashMap parameters; // Operator parameters
 
-		for (int pCase = 16; pCase <= 16; pCase++ ) {
+		for (int pCase = 1; pCase <= 16; pCase++ ) {
 			switch (pCase) {
 				case 1:
 					problemSet = ETMOF1.getProblem();
@@ -120,9 +120,9 @@ public class MOMFEAII_main {
 
 			DecimalFormat form = new DecimalFormat("#.####E0");
 
-			System.out.println("RunID\t" + "IGD for "+problemSet.get(0).getName()+" to "+problemSet.get(taskNumber-1).getName());
+//			System.out.println("RunID\t" + "IGD for "+problemSet.get(0).getName()+" to "+problemSet.get(taskNumber-1).getName());
 
-			int times = 21;
+			int times = 1;
 
 			double ave[] = new double[taskNumber];
 			for (int t = 1; t <= times; t++) {

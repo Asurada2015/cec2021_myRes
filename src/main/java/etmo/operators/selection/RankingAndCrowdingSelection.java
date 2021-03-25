@@ -22,6 +22,7 @@
 package etmo.operators.selection;
 
 import etmo.core.Problem;
+import etmo.core.ProblemSet;
 import etmo.core.SolutionSet;
 import etmo.util.Configuration;
 import etmo.util.Distance;
@@ -139,4 +140,14 @@ public class RankingAndCrowdingSelection extends Selection {
 
 		return result;
 	} // execute
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
+	}
 } // RankingAndCrowding

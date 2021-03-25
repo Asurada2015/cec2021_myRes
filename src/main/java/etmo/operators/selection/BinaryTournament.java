@@ -21,8 +21,10 @@
 
 package etmo.operators.selection;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 import etmo.core.SolutionSet;
+import etmo.util.JMException;
 import etmo.util.PseudoRandom;
 import etmo.util.comparators.DominanceComparator;
 
@@ -79,4 +81,14 @@ public class BinaryTournament extends Selection {
 		else
 			return solution2;
 	} // execute
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
+	}
 } // BinaryTournament

@@ -24,7 +24,9 @@ package etmo.operators.selection;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import etmo.core.ProblemSet;
 import etmo.core.SolutionSet;
+import etmo.util.JMException;
 
 /**
  * This class implements a selection operator used for selecting the best
@@ -77,4 +79,14 @@ public class BestSolutionSelection extends Selection {
 
 		return bestSolution;
 	} // Execute
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
+	}
 } // BestObjectiveSelection

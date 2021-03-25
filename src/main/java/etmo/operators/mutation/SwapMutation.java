@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 import etmo.encodings.solutionType.PermutationSolutionType;
 import etmo.util.Configuration;
@@ -40,6 +41,16 @@ public class SwapMutation extends Mutation {
 		doMutation(mutationProbability_, solution);
 
 		return solution;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
 	}
 
 	public void doMutation(double probability, Solution solution) throws JMException {

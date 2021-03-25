@@ -21,6 +21,7 @@
 
 package etmo.operators.crossover;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 import jmetal.encodings.solutionType.ArrayRealSolutionType;
 import etmo.encodings.solutionType.RealSolutionType;
@@ -204,5 +205,15 @@ public class EGG extends Crossover {
                             parents[1],
                             parents[2]);
     return offSpring;
-  } // execute 
+  } // execute
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
+	}
 } // SBXCrossover

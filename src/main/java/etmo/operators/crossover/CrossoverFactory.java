@@ -47,8 +47,20 @@ public class CrossoverFactory {
 			return new TwoPointsCrossover(parameters);
 		else if (name.equalsIgnoreCase("DifferentialEvolutionCrossover"))
 			return new DifferentialEvolutionCrossover(parameters);
-		else if (name.equalsIgnoreCase("EGG"))
-			return new EGG(parameters);
+		else if (name.equalsIgnoreCase("SpCrossover"))
+			return new SpCrossover(parameters);		
+		else if (name.equalsIgnoreCase("TpCrossover"))
+			return new TpCrossover(parameters);	
+		else if (name.equalsIgnoreCase("UfCrossover"))
+			return new UfCrossover(parameters);	
+		else if (name.equalsIgnoreCase("AriCrossover"))
+			return new AriCrossover(parameters);	
+		else if (name.equalsIgnoreCase("GeoCrossover"))
+			return new GeoCrossover(parameters);			
+		else if (name.equalsIgnoreCase("BLX03Crossover"))
+			return new BLX03Crossover(parameters);		
+		else if (name.equalsIgnoreCase("NewCrossover"))
+			return new NewCrossover(parameters);		
 		else {
 			Configuration.logger_
 					.severe("CrossoverFactory.getCrossoverOperator. " + "Operator '" + name + "' not found ");

@@ -21,6 +21,7 @@
 
 package etmo.operators.crossover;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 import etmo.encodings.solutionType.PermutationSolutionType;
 import etmo.encodings.variable.Permutation;
@@ -167,7 +168,7 @@ public class PMXCrossover extends Crossover {
 
 		if (parents.length < 2) {
 			Configuration.logger_.severe("PMXCrossover.execute: operator needs two " + "parents");
-			Class cls = java.lang.String.class;
+			Class cls = String.class;
 			String name = cls.getName();
 			throw new JMException("Exception in " + name + ".execute()");
 		}
@@ -176,4 +177,16 @@ public class PMXCrossover extends Crossover {
 
 		return offspring;
 	} // execute
+	
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } // PMXCrossover

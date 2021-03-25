@@ -21,6 +21,7 @@
 
 package etmo.operators.crossover;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 import etmo.encodings.solutionType.RealSolutionType;
 import etmo.util.Configuration;
@@ -100,7 +101,7 @@ public class SBXCrossover extends Crossover {
 				valueX1 = x1.getValue(i);
 				valueX2 = x2.getValue(i);
 				if (PseudoRandom.randDouble() <= 0.5) {
-					if (java.lang.Math.abs(valueX1 - valueX2) > EPS) {
+					if (Math.abs(valueX1 - valueX2) > EPS) {
 
 						if (valueX1 < valueX2) {
 							y1 = valueX1;
@@ -115,25 +116,25 @@ public class SBXCrossover extends Crossover {
 						rand = PseudoRandom.randDouble();
 						beta = 1.0 + (2.0 * (y1 - yL) / (y2 - y1));					
 						
-						alpha = 2.0 - java.lang.Math.pow(beta, -(distributionIndex_ + 1.0));
+						alpha = 2.0 - Math.pow(beta, -(distributionIndex_ + 1.0));
 
 						if (rand <= (1.0 / alpha)) {
-							betaq = java.lang.Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
+							betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
 						} else {
-							betaq = java.lang.Math.pow((1.0 / (2.0 - rand * alpha)),
+							betaq = Math.pow((1.0 / (2.0 - rand * alpha)),
 									(1.0 / (distributionIndex_ + 1.0)));
 						} // if
 						if(Double.isNaN(betaq))
-							System.out.println(java.lang.Math.pow(0.1,1.0/2.0));
+							System.out.println(Math.pow(0.1,1.0/2.0));
 						c1 = 0.5 * ((y1 + y2) - betaq * (y2 - y1));
 
 						beta = 1.0 + (2.0 * (yu - y2) / (y2 - y1));
-						alpha = 2.0 - java.lang.Math.pow(beta, -(distributionIndex_ + 1.0));
+						alpha = 2.0 - Math.pow(beta, -(distributionIndex_ + 1.0));
 
 						if (rand <= (1.0 / alpha)) {
-							betaq = java.lang.Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
+							betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex_ + 1.0)));
 						} else {
-							betaq = java.lang.Math.pow((1.0 / (2.0 - rand * alpha)),
+							betaq = Math.pow((1.0 / (2.0 - rand * alpha)),
 									(1.0 / (distributionIndex_ + 1.0)));
 						} // if
 
@@ -186,7 +187,7 @@ public class SBXCrossover extends Crossover {
 
 		if (parents.length != 2) {
 			Configuration.logger_.severe("SBXCrossover.execute: operator needs two " + "parents");
-			Class cls = java.lang.String.class;
+			Class cls = String.class;
 			String name = cls.getName();
 			throw new JMException("Exception in " + name + ".execute()");
 		} // if
@@ -196,7 +197,7 @@ public class SBXCrossover extends Crossover {
 			Configuration.logger_.severe("SBXCrossover.execute: the solutions " + "type " + parents[0].getType()
 					+ " is not allowed with this operator");
 
-			Class cls = java.lang.String.class;
+			Class cls = String.class;
 			String name = cls.getName();
 			throw new JMException("Exception in " + name + ".execute()");
 		} // if
@@ -211,4 +212,42 @@ public class SBXCrossover extends Crossover {
 		// }
 		return offSpring;
 	} // execute
+	
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		Solution[] parents = (Solution[]) object;
+
+		if (parents.length != 2) {
+			Configuration.logger_.severe("SBXCrossover.execute: operator needs two " + "parents");
+			Class cls = String.class;
+			String name = cls.getName();
+			throw new JMException("Exception in " + name + ".execute()");
+		} // if
+
+		if (!(VALID_TYPES.contains(parents[0].getType().getClass())
+				&& VALID_TYPES.contains(parents[1].getType().getClass()))) {
+			Configuration.logger_.severe("SBXCrossover.execute: the solutions " + "type " + parents[0].getType()
+					+ " is not allowed with this operator");
+
+			Class cls = String.class;
+			String name = cls.getName();
+			throw new JMException("Exception in " + name + ".execute()");
+		} // if
+
+		Solution[] offSpring;
+		offSpring = doCrossover(crossoverProbability_, parents[0], parents[1]);
+
+		// for (int i = 0; i < offSpring.length; i++)
+		// {
+		// offSpring[i].setCrowdingDistance(0.0);
+		// offSpring[i].setRank(0);
+		// }
+		return offSpring;
+	}
 } // SBXCrossover

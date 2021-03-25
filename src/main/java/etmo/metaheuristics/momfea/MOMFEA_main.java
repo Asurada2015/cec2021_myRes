@@ -24,62 +24,62 @@ public class MOMFEA_main {
 		HashMap parameters; // Operator parameters
 
 
-		for (int pCase = 1; pCase <= 2; pCase++ ){
+		for (int pCase = 1; pCase <= 16; pCase++ ){
 			switch (pCase){
 				case 1:
-					problemSet = ETMOF17.getProblem();
+					problemSet = ETMOF1.getProblem();
 					break;
 				case 2:
-					problemSet = ETMOF18.getProblem();
+					problemSet = ETMOF2.getProblem();
 					break;
 				case 3:
-					problemSet = ETMOF19.getProblem();
+					problemSet = ETMOF3.getProblem();
 					break;
 				case 4:
-					problemSet = ETMOF20.getProblem();
+					problemSet = ETMOF4.getProblem();
 					break;
 				case 5:
-					problemSet = ETMOF21.getProblem();
+					problemSet = ETMOF5.getProblem();
 					break;
 				case 6:
-					problemSet = ETMOF22.getProblem();
+					problemSet = ETMOF6.getProblem();
 					break;
 				case 7:
-					problemSet = ETMOF23.getProblem();
+					problemSet = ETMOF7.getProblem();
 					break;
 				case 8:
-					problemSet = ETMOF24.getProblem();
+					problemSet = ETMOF8.getProblem();
 					break;
 				case 9:
-					problemSet = ETMOF25.getProblem();
+					problemSet = ETMOF9.getProblem();
 					break;
 				case 10:
-					problemSet = ETMOF26.getProblem();
+					problemSet = ETMOF10.getProblem();
 					break;
 				case 11:
-					problemSet = ETMOF27.getProblem();
+					problemSet = ETMOF11.getProblem();
 					break;
 				case 12:
-					problemSet = ETMOF28.getProblem();
+					problemSet = ETMOF12.getProblem();
 					break;
 				case 13:
-					problemSet = ETMOF29.getProblem();
+					problemSet = ETMOF13.getProblem();
 					break;
 				case 14:
-					problemSet = ETMOF30.getProblem();
+					problemSet = ETMOF14.getProblem();
 					break;
 				case 15:
-					problemSet = ETMOF31.getProblem();
+					problemSet = ETMOF15.getProblem();
 					break;
 				case 16:
-					problemSet = ETMOF32.getProblem();
+					problemSet = ETMOF16.getProblem();
 					break;
 				default:
 					problemSet = ETMOF1.getProblem();
 			}
 
 			int taskNumber = problemSet.size();
-			System.out.println("taskNumber = "+taskNumber);
+//			System.out.println("taskNumber = "+taskNumber);
 
 
 			String[] pf = new String[problemSet.size()];
@@ -119,7 +119,7 @@ public class MOMFEA_main {
 			DecimalFormat form = new DecimalFormat("#.####E0");
 
 //			System.out.println("RunID\t" + "IGD for "+problemSet.get(0).getName()+" to "+problemSet.get(taskNumber-1).getName());
-			System.out.println("TaskID\t" + "IGD for " + problemSet.get(0).getName()+" to " +problemSet.get(taskNumber-1).getName());
+//			System.out.println("TaskID\t" + "IGD for " + problemSet.get(0).getName()+" to " +problemSet.get(taskNumber-1).getName());
 
 			int times = 21;
 
@@ -175,7 +175,7 @@ public class MOMFEA_main {
 //			System.out.println();
 			for(int i=0;i<taskNumber;i++)
 //				System.out.println("Average IGD for " + problemSet.get(i).getName()+ ": " + form.format(ave[i] / times));
-				System.out.println(i+"\t"+form.format(ave[i] / times));
+				System.out.println(form.format(ave[i] / times));
 
 		}
 

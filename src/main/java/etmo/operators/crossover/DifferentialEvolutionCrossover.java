@@ -21,6 +21,7 @@
 
 package etmo.operators.crossover;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 
 import etmo.encodings.solutionType.RealSolutionType;
@@ -132,7 +133,7 @@ public class DifferentialEvolutionCrossover extends Crossover {
 					+ "are not of the right type. The type should be 'Real' or 'ArrayReal', but " + parent[0].getType()
 					+ " and " + parent[1].getType() + " and " + parent[2].getType() + " are obtained");
 
-			Class cls = java.lang.String.class;
+			Class cls = String.class;
 			String name = cls.getName();
 			throw new JMException("Exception in " + name + ".execute()");
 		}
@@ -260,10 +261,22 @@ public class DifferentialEvolutionCrossover extends Crossover {
 		else {
 			Configuration.logger_
 					.severe("DifferentialEvolutionCrossover.execute: " + " unknown DE variant (" + DE_Variant_ + ")");
-			Class<String> cls = java.lang.String.class;
+			Class<String> cls = String.class;
 			String name = cls.getName();
 			throw new JMException("Exception in " + name + ".execute()");
 		} // else
 		return child;
+	}
+	
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 } // DifferentialEvolutionCrossover

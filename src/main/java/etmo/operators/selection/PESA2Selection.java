@@ -21,6 +21,7 @@
 
 package etmo.operators.selection;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 import etmo.util.Configuration;
 import etmo.util.JMException;
@@ -93,4 +94,14 @@ public class PESA2Selection extends Selection {
 			throw new JMException("Exception in " + name + ".execute()");
 		}
 	} // execute
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
+	}
 } // PESA2Selection

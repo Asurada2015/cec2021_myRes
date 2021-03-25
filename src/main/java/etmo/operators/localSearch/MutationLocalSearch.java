@@ -21,10 +21,7 @@
 
 package etmo.operators.localSearch;
 
-import etmo.core.Operator;
-import etmo.core.Problem;
-import etmo.core.Solution;
-import etmo.core.SolutionSet;
+import etmo.core.*;
 import etmo.operators.mutation.Mutation;
 import etmo.util.JMException;
 import etmo.util.comparators.DominanceComparator;
@@ -170,6 +167,16 @@ public class MutationLocalSearch extends LocalSearch {
 		} while (i < rounds);
 		return new Solution(solution);
 	} // execute
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
+	}
 
 	/**
 	 * Returns the number of evaluations maded

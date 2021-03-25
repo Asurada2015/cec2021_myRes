@@ -21,11 +21,13 @@
 
 package etmo.core;
 
+
+
+import etmo.util.JMException;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import etmo.util.JMException;
 
 /**
  * Class representing an operator
@@ -38,7 +40,7 @@ public abstract class Operator implements Serializable {
 	 * accessed by their names, which are specified by the string.
 	 */
 	protected final Map<String, Object> parameters_;
-
+	private String name;
 	/**
 	 * Constructor.
 	 */
@@ -59,7 +61,8 @@ public abstract class Operator implements Serializable {
 	 * @return An object reference. The returned value depends on the operator.
 	 */
 	abstract public Object execute(Object object) throws JMException;
-
+	abstract public Object execute(Object object, ProblemSet problemSet) throws JMException;
+	abstract public Object execute(Object object, ProblemSet problemSet , int alpha) throws JMException;
 	/**
 	 * Sets a new <code>Object</code> parameter to the operator.
 	 * 
@@ -82,5 +85,13 @@ public abstract class Operator implements Serializable {
 	public Object getParameter(String name) {
 		return parameters_.get(name);
 	} // getParameter
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 } // Operator

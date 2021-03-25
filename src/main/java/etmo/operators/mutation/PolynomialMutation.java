@@ -21,6 +21,7 @@
 
 package etmo.operators.mutation;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 import etmo.encodings.solutionType.RealSolutionType;
 import etmo.util.Configuration;
@@ -123,5 +124,15 @@ public class PolynomialMutation extends Mutation {
 		doMutation(mutationProbability_, solution);
 		return solution;
 	} // execute
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
+	}
 
 } // PolynomialMutation

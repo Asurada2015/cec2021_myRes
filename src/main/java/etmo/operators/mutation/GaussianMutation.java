@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import etmo.core.ProblemSet;
 import etmo.core.Solution;
 import etmo.encodings.solutionType.RealSolutionType;
 import etmo.util.Configuration;
@@ -64,5 +65,15 @@ public class GaussianMutation extends Mutation {
 
 		return solution;
 	} // execute
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet) throws JMException {
+		return null;
+	}
+
+	@Override
+	public Object execute(Object object, ProblemSet problemSet, int alpha) throws JMException {
+		return null;
+	}
 
 }
