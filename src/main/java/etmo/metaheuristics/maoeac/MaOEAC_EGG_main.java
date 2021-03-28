@@ -29,7 +29,7 @@ public class MaOEAC_EGG_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 1; pCase <= 1; pCase++ ){
+        for (int pCase = 9; pCase <= 16; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();
@@ -86,7 +86,7 @@ public class MaOEAC_EGG_main {
 
             int taskNumber = problemSet1.size();
 //            System.out.println("taskNumber = "+taskNumber);
-            System.out.println("TaskID\t" + "IGD for " + problemSet1.get(0).getName()+" to " +problemSet1.get(taskNumber-1).getName());
+//            System.out.println("TaskID\t" + "IGD for " + problemSet1.get(0).getName()+" to " +problemSet1.get(taskNumber-1).getName());
             for (int tsk=0;tsk<taskNumber;tsk++) {
 
                 problemSet2 = problemSet1.getTask(tsk);
@@ -130,7 +130,7 @@ public class MaOEAC_EGG_main {
 //                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
                 DecimalFormat form = new DecimalFormat("#.####E0");
                 QualityIndicator indicator = new QualityIndicator(problemSet2.get(0), pf);
-                int times = 1;
+                int times = 21;
                 double aveIGD = 0;
                 for (int i = 1; i <= times; i++) {
                     SolutionSet population = algorithm.execute();

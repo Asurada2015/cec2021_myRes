@@ -60,7 +60,9 @@ public class CrossoverFactory {
 		else if (name.equalsIgnoreCase("BLX03Crossover"))
 			return new BLX03Crossover(parameters);		
 		else if (name.equalsIgnoreCase("NewCrossover"))
-			return new NewCrossover(parameters);		
+			return new NewCrossover(parameters);
+		else if (name.equalsIgnoreCase("EGG"))
+			return new EGG(parameters);
 		else {
 			Configuration.logger_
 					.severe("CrossoverFactory.getCrossoverOperator. " + "Operator '" + name + "' not found ");
