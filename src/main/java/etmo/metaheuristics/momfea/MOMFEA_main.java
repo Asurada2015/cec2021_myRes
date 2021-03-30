@@ -24,7 +24,7 @@ public class MOMFEA_main {
 		HashMap parameters; // Operator parameters
 
 
-		for (int pCase = 1; pCase <= 16; pCase++ ){
+		for (int pCase = 3; pCase <= 3; pCase++ ){
 			switch (pCase){
 				case 1:
 					problemSet = ETMOF1.getProblem();

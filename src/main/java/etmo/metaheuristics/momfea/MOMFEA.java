@@ -60,6 +60,7 @@ public class MOMFEA extends Algorithm {
 		population = new SolutionSet(populationSize);
 		for (int i = 0; i < populationSize; i++) {
 			Solution newSolution = new Solution(problemSet_);
+//			Solution newSolution = new Solution(problemSet_.get(0));
 			int id = PseudoRandom.randInt(0, problemSet_.size() - 1);
 			problemSet_.get(id).evaluate(newSolution);
 			problemSet_.get(id).evaluateConstraints(newSolution);

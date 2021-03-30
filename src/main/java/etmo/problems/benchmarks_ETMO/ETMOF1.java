@@ -18,6 +18,7 @@ public class ETMOF1 {
 
 		problemSet.add(ps1.get(0));
 		problemSet.add(ps2.get(0));
+
 		return problemSet;
 
 	}

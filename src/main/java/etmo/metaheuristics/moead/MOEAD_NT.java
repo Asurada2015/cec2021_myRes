@@ -11,8 +11,20 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+public class MOEAD_NT extends Algorithm {
 
-public class MOEAD extends Algorithm {
+
+
+    /**
+     * Constructor
+     *
+     * @param problemSet The problem to be solved
+     */
+    public MOEAD_NT(ProblemSet problemSet) {
+        super(problemSet);
+        functionType_ = "_TCHE1";
+    }
+
     private int populationSize_;
     /**
      * Stores the population
@@ -43,7 +55,7 @@ public class MOEAD extends Algorithm {
      * nr: maximal number of solutions replaced by each child solution
      */
     int nr_;
-//    Solution[] indArray_;
+    //    Solution[] indArray_;
     String functionType_;
     int evaluations_;
     /**
@@ -56,15 +68,7 @@ public class MOEAD extends Algorithm {
 
 
 
-    /**
-     * Constructor
-     *
-     * @param problemSet The problem to be solved
-     */
-    public MOEAD(ProblemSet problemSet) {
-        super(problemSet);
-        functionType_ = "_TCHE1";
-    }
+
 
     @Override
     public SolutionSet execute() throws JMException, ClassNotFoundException {
@@ -75,8 +79,8 @@ public class MOEAD extends Algorithm {
         populationSize_ = ((Integer) this.getInputParameter("populationSize")).intValue();
         dataDirectory_ = this.getInputParameter("dataDirectory").toString();
 
-
-        population_ = new SolutionSet(populationSize_);
+//        多任务的个体
+        population_ = new SolutionSet(populationSize_ * problemSet_.size());
 //        indArray_ = new Solution[problemSet_.get(0).getNumberOfObjectives()];
 
         T_ = ((Integer) this.getInputParameter("T")).intValue();
@@ -84,7 +88,8 @@ public class MOEAD extends Algorithm {
         delta_ = ((Double) this.getInputParameter("delta")).doubleValue();
 
         neighborhood_ = new int[populationSize_][T_];
-        z_ = new double[problemSet_.get(0).getNumberOfObjectives()];
+        //理想点不同
+        z_ = new double[problemSet_.get(0).getNumberOfObjectives() * problemSet_.size()];
 
         // lambda_ = new Vector(problem_.getNumberOfObjectives()) ;
         lambda_ = new double[populationSize_][problemSet_.get(0).getNumberOfObjectives()];
@@ -109,12 +114,16 @@ public class MOEAD extends Algorithm {
 
         // STEP 2. Update
         do {
-            int[] permutation = new int[populationSize_];
-            Utils.randomPermutation(permutation, populationSize_);
+            int tasknum = problemSet_.size();
+            int[] permutation = new int[populationSize_ * tasknum];
+            Utils.randomPermutation(permutation, populationSize_ * tasknum);
 
-            for (int i = 0; i < populationSize_; i++) {
+            for (int i = 0; i < populationSize_ * tasknum; i++) {
                 int n = permutation[i]; // or int n = i;
-                // int n = i ; // or int n = i;
+
+                int task = n / populationSize_;
+                int neiborN = n % populationSize_;
+
                 int type;
                 double rnd = etmo.util.PseudoRandom.randDouble();
 
@@ -126,7 +135,7 @@ public class MOEAD extends Algorithm {
                     type = 2; // whole population
                 }
                 Vector<Integer> p = new Vector<Integer>();
-                matingSelection(p, n, 2, type);
+                matingSelection(p, neiborN, 2, type, task);
 
                 // STEP 2.2. Reproduction
                 Solution child;
@@ -143,24 +152,33 @@ public class MOEAD extends Algorithm {
                 mutation_.execute(child);
 
                 // Evaluation
-                problemSet_.get(0).evaluate(child);
-
+                problemSet_.get(task).evaluate(child);
                 evaluations_++;
 
                 // STEP 2.3. Repair. Not necessary
 
                 // STEP 2.4. Update z_
-                updateReference(child);
+                updateReference(child, task);
 
                 // STEP 2.5. Update of solutions
-                updateProblem(child, n, type);
+                updateProblem(child, neiborN, type, task);
+
+//                加入迁移
+                for (int t = 0; t < tasknum; t++){
+                    if (t == task) continue;
+                    problemSet_.get(t).evaluate(child);
+                    evaluations_++;
+                    updateReference(child, t);
+                    updateProblem(child, neiborN, type, t);
+                }
+
             } // for
         } while (evaluations_ < maxEvaluations);
 
         return population_;
     }
 
-    private void updateProblem(Solution indiv, int id, int type) {
+    private void updateProblem(Solution indiv, int id, int type, int taskId) {
         // indiv: child solution
         // id: the id of current subproblem
         // type: update solutions in - neighborhood (1) or whole population
@@ -173,7 +191,7 @@ public class MOEAD extends Algorithm {
         if (type == 1) {
             size = neighborhood_[id].length;
         } else {
-            size = population_.size();
+            size = populationSize_;
         }
         int[] perm = new int[size];
 
@@ -190,15 +208,15 @@ public class MOEAD extends Algorithm {
             double f1, f2;
 
 //            邻域内随机选择权重向量,我觉得会有重复
-            f1 = fitnessFunction(population_.get(k), lambda_[k]);
-            f2 = fitnessFunction(indiv, lambda_[k]);
+            f1 = fitnessFunction(population_.get(k + taskId * populationSize_), lambda_[k], taskId);
+            f2 = fitnessFunction(indiv, lambda_[k], taskId);
 
 //            依次选择权重向量
 //            f1 = fitnessFunction(population_.get(k), lambda_[id]);
 //            f2 = fitnessFunction(indiv, lambda_[id]);
 
             if (f2 < f1) {
-                population_.replace(k, new Solution(indiv));
+                population_.replace(k + taskId * populationSize_, new Solution(indiv));
                 // population[k].indiv = indiv;
                 time++;
             }
@@ -212,21 +230,22 @@ public class MOEAD extends Algorithm {
 
     }
 
-    private double fitnessFunction(Solution individual, double[] lambda) {
+    private double fitnessFunction(Solution individual, double[] lambda, int taskId) {
         double fitness;
         fitness = 0.0;
 
         if (functionType_.equals("_TCHE1")) {
             double maxFun = -1.0e+30;
 
-            for (int n = 0; n < problemSet_.get(0).getNumberOfObjectives(); n++) {
+            int turn = problemSet_.get(0).getNumberOfObjectives() * taskId;
+            for (int n = 0 + turn; n < problemSet_.get(0).getNumberOfObjectives() + turn; n++) {
                 double diff = Math.abs(individual.getObjective(n) - z_[n]);
 
                 double feval;
-                if (lambda[n] == 0) {
+                if (lambda[n % problemSet_.get(0).getNumberOfObjectives()] == 0) {
                     feval = 0.0001 * diff;
                 } else {
-                    feval = diff * lambda[n];
+                    feval = diff * lambda[n % problemSet_.get(0).getNumberOfObjectives()];
                 }
                 if (feval > maxFun) {
                     maxFun = feval;
@@ -244,8 +263,9 @@ public class MOEAD extends Algorithm {
 
     }
 
-    private void updateReference(Solution individual) {
-        for (int n = 0; n < problemSet_.get(0).getNumberOfObjectives(); n++) {
+    private void updateReference(Solution individual, int tasknum) {
+        int turn = problemSet_.get(0).getNumberOfObjectives();
+        for (int n = 0 + turn * tasknum; n < turn * (tasknum + 1); n++) {
             if (individual.getObjective(n) < z_[n]) {
                 z_[n] = individual.getObjective(n);
 
@@ -255,7 +275,7 @@ public class MOEAD extends Algorithm {
 
     }
 
-    private void matingSelection(Vector<Integer> list, int cid, int size, int type) {
+    private void matingSelection(Vector<Integer> list, int cid, int size, int type, int tasknum) {
         // list : the set of the indexes of selected mating parents
         // cid : the id of current subproblem
         // size : the number of selected mating parents
@@ -271,7 +291,7 @@ public class MOEAD extends Algorithm {
                 p = neighborhood_[cid][r];
                 // p = population[cid].table[r];
             } else {
-                p = PseudoRandom.randInt(0, populationSize_ - 1);
+                p = PseudoRandom.randInt(0 , populationSize_ - 1 );
             }
             boolean flag = true;
             for (int i = 0; i < list.size(); i++) {
@@ -284,30 +304,31 @@ public class MOEAD extends Algorithm {
 
             // if (flag) list.push_back(p);
             if (flag) {
-                list.addElement(p);
+                list.addElement(p + tasknum * populationSize_);
             }
         }
 
     }
 
     private void initIdealPoint() throws ClassNotFoundException, JMException {
-        for (int i = 0; i < problemSet_.get(0).getNumberOfObjectives(); i++) {
+        for (int i = 0; i < problemSet_.get(0).getNumberOfObjectives() * problemSet_.size(); i++) {
             z_[i] = 1.0e+30;
 //            indArray_[i] = new Solution(problemSet_);
 //            problemSet_.get(0).evaluate(indArray_[i]);
 //            evaluations_++;
         } // for
 
-        for (int i = 0; i < populationSize_; i++) {
-            updateReference(population_.get(i));
+        for (int i = 0; i < populationSize_ * problemSet_.size(); i++) {
+            int tasknum = i / populationSize_;
+            updateReference(population_.get(i), tasknum);
         } // for
 
     }
 
     private void initPopulation() throws ClassNotFoundException, JMException {
-        for (int i = 0; i < populationSize_; i++) {
+        for (int i = 0; i < populationSize_ * problemSet_.size(); i++) {
             Solution newSolution = new Solution(problemSet_);
-            problemSet_.get(0).evaluate(newSolution);
+            problemSet_.get(i / populationSize_).evaluate(newSolution);
             evaluations_++;
             population_.add(newSolution);
         } // for
