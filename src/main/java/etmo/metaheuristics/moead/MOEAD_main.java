@@ -4,6 +4,7 @@ import etmo.core.Algorithm;
 import etmo.core.Operator;
 import etmo.core.ProblemSet;
 import etmo.core.SolutionSet;
+import etmo.metaheuristics.utils.printIGD;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.problems.benchmarks_ETMO.*;
@@ -33,7 +34,7 @@ MOEAD_main {
         Operator selection;
 
         HashMap parameters; // Operator parameters
-        for (int pCase = 1; pCase <= 8; pCase++ ){
+        for (int pCase = 1; pCase <= 7; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();
@@ -42,22 +43,22 @@ MOEAD_main {
                     problemSet1 = ETMOF2.getProblem();
                     break;
                 case 3:
-                    problemSet1 = ETMOF3.getProblem();
-                    break;
-                case 4:
                     problemSet1 = ETMOF4.getProblem();
                     break;
-                case 5:
+                case 4:
                     problemSet1 = ETMOF5.getProblem();
                     break;
-                case 6:
+                case 5:
                     problemSet1 = ETMOF6.getProblem();
                     break;
-                case 7:
+                case 6:
                     problemSet1 = ETMOF7.getProblem();
                     break;
-                case 8:
+                case 7:
                     problemSet1 = ETMOF8.getProblem();
+                    break;
+                case 8:
+                    problemSet1 = ETMOF3.getProblem();
                     break;
                 case 9:
                     problemSet1 = ETMOF9.getProblem();
@@ -88,7 +89,10 @@ MOEAD_main {
             }
 
             int taskNumber = problemSet1.size();
+            int times = 21;
 //            System.out.println("taskNumber = "+taskNumber);
+            double cpIGD[][] = new double[taskNumber][times];
+
             for (int tsk = 0; tsk < taskNumber; tsk++) {
 //            for (int tsk=0; tsk < taskNumber; tsk++) {
 
@@ -137,8 +141,9 @@ MOEAD_main {
 //                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
                 DecimalFormat form = new DecimalFormat("#.####E0");
                 QualityIndicator indicator = new QualityIndicator(problemSet2.get(0), pfcal);
-                int times = 21;
+//                int times = 21;
                 double aveIGD = 0;
+//                double cpIGD[][] = new double[taskNumber][times];
                 for (int i = 1; i <= times; i++) {
                     SolutionSet population = algorithm.execute();
 //                    chart.saveChart("moead", BitmapEncoder.BitmapFormat.PNG);
@@ -149,6 +154,8 @@ MOEAD_main {
 //                    System.out.println(i + "\t" + form.format(igd));
 //                    System.out.println(i + "\t" + form.format(igd));
 //                    resources/weightVectorFiles/moead/W3D_100.dat
+                    cpIGD[tsk][i - 1] = igd;
+
 
 
                 }
@@ -156,6 +163,8 @@ MOEAD_main {
                 System.out.println(form.format(aveIGD / times));
                 //                System.out.println();
             }
+            String path = "MOEAD_F1-8.txt";
+            printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
         }
 

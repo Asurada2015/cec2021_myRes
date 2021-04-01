@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
+import etmo.metaheuristics.utils.printIGD;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.util.comparators.LocationComparator;
 import etmo.core.Algorithm;
@@ -40,7 +41,7 @@ public class AKT_main {
 
 		int cxNum = 7;
 //		选择自适应
-		for (int pCase = 1; pCase <= 16; pCase++ ){
+		for (int pCase = 1; pCase <= 7; pCase++ ){
 				switch(pCase){
 					case 1:
 						problemSet = ETMOF1.getProblem();
@@ -49,22 +50,22 @@ public class AKT_main {
 						problemSet = ETMOF2.getProblem();
 						break;
 					case 3:
-						problemSet = ETMOF3.getProblem();
-						break;
-					case 4:
 						problemSet = ETMOF4.getProblem();
 						break;
-					case 5:
+					case 4:
 						problemSet = ETMOF5.getProblem();
 						break;
-					case 6:
+					case 5:
 						problemSet = ETMOF6.getProblem();
 						break;
-					case 7:
+					case 6:
 						problemSet = ETMOF7.getProblem();
 						break;
-					case 8:
+					case 7:
 						problemSet = ETMOF8.getProblem();
+						break;
+					case 8:
+						problemSet = ETMOF3.getProblem();
 						break;
 					case 9:
 						problemSet = ETMOF9.getProblem();
@@ -171,8 +172,9 @@ public class AKT_main {
 
 				//===========================================================================================										
 				double ave[] = new double[taskNumber];
-				
-				for (int t = 1; t <= times; t++) {	
+				double cpIGD[][] = new double[taskNumber][times];
+
+			for (int t = 1; t <= times; t++) {
 					SolutionSet population = algorithm.execute();
 					SolutionSet[] resPopulation = new SolutionSet[problemSet.size()];
 					for (int i = 0; i < problemSet.size(); i++)
@@ -204,6 +206,8 @@ public class AKT_main {
 						igd =  indicator.getIGD(resPopulation[i]);
 //						System.out.print(form.format(igd) + "\t" );
 						ave[i] += igd;
+						cpIGD[i][t - 1] = igd;
+
 					}
 //					System.out.println("");
 				}
@@ -211,7 +215,9 @@ public class AKT_main {
 //				System.out.println();
 				for(int i=0;i<taskNumber;i++)		
 					System.out.println(form.format(ave[i] / times));
-					
+
+				String path = "AKT_F1-8.txt";
+				printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 			}
 	    }
 		

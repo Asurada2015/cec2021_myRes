@@ -1,13 +1,18 @@
 package etmo.metaheuristics.moead;
 
 import etmo.core.*;
+import etmo.metaheuristics.utils.printIGD;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
+import etmo.util.Configuration;
 import etmo.util.JMException;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
@@ -70,6 +75,30 @@ public class MOEAD_NT_main {
                 case 16:
                     problemSet = ETMOF16.getProblem();
                     break;
+                case 17:
+                    problemSet = ETMOF17.getProblem();
+                    break;
+                case 18:
+                    problemSet = ETMOF18.getProblem();
+                    break;
+                case 19:
+                    problemSet = ETMOF19.getProblem();
+                    break;
+                case 20:
+                    problemSet = ETMOF20.getProblem();
+                    break;
+                case 21:
+                    problemSet = ETMOF21.getProblem();
+                    break;
+                case 22:
+                    problemSet = ETMOF22.getProblem();
+                    break;
+                case 23:
+                    problemSet = ETMOF23.getProblem();
+                    break;
+                case 24:
+                    problemSet = ETMOF24.getProblem();
+                    break;
                 default:
                     problemSet = ETMOF1.getProblem();
             }
@@ -116,6 +145,7 @@ public class MOEAD_NT_main {
 
             int times = 21;
             double ave[] = new double[taskNumber];
+            double cpIGD[][] = new double[taskNumber][times];
 
             for (int t = 1; t <= times; t++){
                 SolutionSet population = algorithm.execute();
@@ -149,21 +179,50 @@ public class MOEAD_NT_main {
 //				getTask中用到add影响problem起始和结束值
 //				resPopulation[i].printObjectivesToFile("MOMFEA_"+problemSet.getTask(i).get(0).getNumberOfObjectives()+"Obj_"+
 //						problemSet.getTask(i).get(0).getName()+ "_" + problemSet.getTask(i).get(0).getNumberOfVariables() + "D_run"+t+".txt");
-//					resPopulation[i].printObjectivesToFile("MOMFEA_"+problemSet.get(i).getNumberOfObjectives()+"Obj_"+
+//					resPopulation[i].printObjectivesToFile("MOEAD_NT_"+problemSet.get(i).getNumberOfObjectives()+"Obj_"+
 //							problemSet.get(i).getName()+ "_" + problemSet.get(i).getNumberOfVariables() + "D_run"+t+".txt");
 
                     igd =  indicator.getIGD(resPopulation[i]);
 //					System.out.print(form.format(igd) + "\t" );
                     ave[i] += igd;
+                    cpIGD[i][t - 1] = igd;
                 }
 
-
-
             }
+
+
+
 
             for(int i=0;i<taskNumber;i++)
 //				System.out.println("Average IGD for " + problemSet.get(i).getName()+ ": " + form.format(ave[i] / times));
                 System.out.println(form.format(ave[i] / times));
+
+
+
+
+            String path = "MOEAD_NT_F1-8.txt";
+            printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
+
+
+//            String path = "";
+//            try {
+//                FileOutputStream fos = new FileOutputStream(path);
+//                OutputStreamWriter osw = new OutputStreamWriter(fos);
+//                BufferedWriter bw = new BufferedWriter(osw);
+//
+//                if (ave > 0) {
+//                    int numberOfVariables = solutionsList_.get(0).getDecisionVariables().length;
+//                    for (Solution aSolutionsList_ : solutionsList_) {
+//                        for (int j = 0; j < numberOfVariables; j++)
+//                            bw.write(aSolutionsList_.getDecisionVariables()[j].toString() + " ");
+//                        bw.newLine();
+//                    }
+//                }
+//                bw.close();
+//            } catch (IOException e) {
+//                Configuration.logger_.severe("Error acceding to the file");
+//                e.printStackTrace();
+//            }
 
 //            QualityIndicator indicator = new QualityIndicator(problemSet.get(0), pf[0]);
 //            int times = 21;

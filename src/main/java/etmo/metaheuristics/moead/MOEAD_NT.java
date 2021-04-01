@@ -1,5 +1,6 @@
 package etmo.metaheuristics.moead;
 
+import Jama.Matrix;
 import etmo.core.*;
 import etmo.util.JMException;
 import etmo.util.PseudoRandom;
@@ -112,8 +113,15 @@ public class MOEAD_NT extends Algorithm {
         // STEP 1.3. Initialize z_
         initIdealPoint();
 
+
+
         // STEP 2. Update
         do {
+
+
+
+
+
             int tasknum = problemSet_.size();
             int[] permutation = new int[populationSize_ * tasknum];
             Utils.randomPermutation(permutation, populationSize_ * tasknum);
@@ -166,10 +174,45 @@ public class MOEAD_NT extends Algorithm {
 //                加入迁移
                 for (int t = 0; t < tasknum; t++){
                     if (t == task) continue;
-                    problemSet_.get(t).evaluate(child);
-                    evaluations_++;
-                    updateReference(child, t);
-                    updateProblem(child, neiborN, type, t);
+//                    加入映射
+//                    {
+//                        int v1 = problemSet_.get(task).getNumberOfVariables();
+//                        int v2 = problemSet_.get(t).getNumberOfVariables();
+//                        double[][] t1 = new double[populationSize_][v1];
+//                        double[][] t2 = new double[populationSize_][v2];
+//                        for (int j = 0 ; j < populationSize_; j++){
+//                            for (int k = 0; k < v1; k++){
+//                                t1[j][k] = population_.get(j).getDecisionVariables()[k].getValue();
+//                            }
+//                        }
+//                        for (int j = 0 ; j < populationSize_; j++){
+//                            for (int k = 0; k < v2; k++){
+//                                t2[j][k] = population_.get(j + populationSize_ * t).getDecisionVariables()[k].getValue();
+//                            }
+//                        }
+//                        Matrix m1 = new Matrix(t1);
+//                        Matrix m2 = new Matrix(t2);
+//                        Matrix m = m1.inverse().times(m2).transpose();
+//                        double[][] transMatrix = m.getArray();
+//
+//                        for (int j = 0; j < v1; j++){
+//                            double sum = 0;
+//                            for (int l = 0; l < v1; l++){
+//                                sum += child.getDecisionVariables()[l].getValue() * transMatrix[j][l];
+//                            }
+////                            越界处理
+//                            if (sum < 0) sum = 0;
+//                            else if (sum > 1) sum = 1;
+//                            child.getDecisionVariables()[j].setValue(sum);
+//                        }
+//                    }
+                    double tranRand = etmo.util.PseudoRandom.randDouble();
+                    if (tranRand <= 0.1){
+                        problemSet_.get(t).evaluate(child);
+                        evaluations_++;
+                        updateReference(child, t);
+                        updateProblem(child, neiborN, type, t);
+                    }
                 }
 
             } // for

@@ -1,6 +1,7 @@
 package etmo.metaheuristics.momfea;
 
 import etmo.core.*;
+import etmo.metaheuristics.utils.printIGD;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.operators.selection.SelectionFactory;
@@ -24,7 +25,7 @@ public class MOMFEA_main {
 		HashMap parameters; // Operator parameters
 
 
-		for (int pCase = 3; pCase <= 3; pCase++ ){
+		for (int pCase = 1; pCase <= 8; pCase++ ){
 			switch (pCase){
 				case 1:
 					problemSet = ETMOF1.getProblem();
@@ -124,6 +125,8 @@ public class MOMFEA_main {
 			int times = 21;
 
 			double ave[] = new double[taskNumber];
+			double cpIGD[][] = new double[taskNumber][times];
+
 			for (int t = 1; t <= times; t++) {
 				SolutionSet population = algorithm.execute();
 
@@ -168,6 +171,7 @@ public class MOMFEA_main {
 					igd =  indicator.getIGD(resPopulation[i]);
 //					System.out.print(form.format(igd) + "\t" );
 					ave[i] += igd;
+					cpIGD[i][t - 1] = igd;
 				}
 //				System.out.println("");
 			}
@@ -176,6 +180,9 @@ public class MOMFEA_main {
 			for(int i=0;i<taskNumber;i++)
 //				System.out.println("Average IGD for " + problemSet.get(i).getName()+ ": " + form.format(ave[i] / times));
 				System.out.println(form.format(ave[i] / times));
+
+			String path = "MOMFEA_F1-8.txt";
+			printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
 		}
 

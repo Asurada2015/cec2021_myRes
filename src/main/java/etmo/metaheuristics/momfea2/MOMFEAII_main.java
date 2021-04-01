@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
+import etmo.metaheuristics.utils.printIGD;
 import etmo.util.comparators.LocationComparator;
 import etmo.core.Algorithm;
 import etmo.core.Operator;
@@ -30,7 +31,7 @@ public class MOMFEAII_main {
 		
 		HashMap parameters; // Operator parameters
 
-		for (int pCase = 16; pCase <= 16; pCase++ ) {
+		for (int pCase = 1; pCase <= 7; pCase++ ) {
 			switch (pCase) {
 				case 1:
 					problemSet = ETMOF1.getProblem();
@@ -39,22 +40,22 @@ public class MOMFEAII_main {
 					problemSet = ETMOF2.getProblem();
 					break;
 				case 3:
-					problemSet = ETMOF3.getProblem();
-					break;
-				case 4:
 					problemSet = ETMOF4.getProblem();
 					break;
-				case 5:
+				case 4:
 					problemSet = ETMOF5.getProblem();
 					break;
-				case 6:
+				case 5:
 					problemSet = ETMOF6.getProblem();
 					break;
-				case 7:
+				case 6:
 					problemSet = ETMOF7.getProblem();
 					break;
-				case 8:
+				case 7:
 					problemSet = ETMOF8.getProblem();
+					break;
+				case 8:
+					problemSet = ETMOF3.getProblem();
 					break;
 				case 9:
 					problemSet = ETMOF9.getProblem();
@@ -125,6 +126,8 @@ public class MOMFEAII_main {
 			int times = 21;
 
 			double ave[] = new double[taskNumber];
+			double cpIGD[][] = new double[taskNumber][times];
+
 			for (int t = 1; t <= times; t++) {
 				SolutionSet population = algorithm.execute();
 				SolutionSet[] resPopulation = new SolutionSet[problemSet.size()];
@@ -158,6 +161,8 @@ public class MOMFEAII_main {
 					igd =  indicator.getIGD(resPopulation[i]);
 //					System.out.print(form.format(igd) + "\t" );
 					ave[i] += igd;
+					cpIGD[i][t - 1] = igd;
+
 				}
 //				System.out.println("");
 			}
@@ -167,6 +172,8 @@ public class MOMFEAII_main {
 //				System.out.println("Average IGD for " + problemSet.get(i).getName()+ ": " + form.format(ave[i] / times));
 				System.out.println(form.format(ave[i] / times));
 
+			String path = "MOMFEAII_F1-8.txt";
+			printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 		}
 
 
