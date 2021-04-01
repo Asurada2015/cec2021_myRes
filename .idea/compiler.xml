@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="15">
-      <module name="etmo" target="15" />
+      <module name="etmo" target="14" />
     </bytecodeTargetLevel>
   </component>
 </project>
