@@ -151,6 +151,11 @@ public class MOEAD_NT extends Algorithm {
 
                 parents[0] = population_.get(p.get(0));
                 parents[1] = population_.get(p.get(1));
+
+//                改成随机任务交叉效果更差
+//                parents[0] = population_.get((p.get(0) + PseudoRandom.randInt(0, tasknum - 1) * populationSize_) % (tasknum * populationSize_));
+//                parents[1] = population_.get((p.get(1) + PseudoRandom.randInt(0, tasknum - 1) * populationSize_) % (tasknum * populationSize_));
+
                 parents[2] = population_.get(n);
 
                 // Apply DE crossover
@@ -174,7 +179,7 @@ public class MOEAD_NT extends Algorithm {
 //                加入迁移
                 for (int t = 0; t < tasknum; t++){
                     if (t == task) continue;
-//                    加入映射
+//                    加入映射效果更差
 //                    {
 //                        int v1 = problemSet_.get(task).getNumberOfVariables();
 //                        int v2 = problemSet_.get(t).getNumberOfVariables();
@@ -207,15 +212,73 @@ public class MOEAD_NT extends Algorithm {
 //                        }
 //                    }
                     double tranRand = etmo.util.PseudoRandom.randDouble();
+//                    if (maxEvaluations % 1000 == 0){
+//                    if (tranRand <= 0.1){
+//                        problemSet_.get(t).evaluate(child);
+//                        evaluations_++;
+//                        updateReference(child, t);
+//                        updateProblem(child, neiborN, type, t);
+//                    }
+                }
+
+            } // for
+
+
+
+            for (int i = 0; i < populationSize_ * tasknum; i++) {
+                int n = permutation[i]; // or int n = i;
+
+                int task = n / populationSize_;
+                int neiborN = n % populationSize_;
+
+                int type;
+                double rnd = etmo.util.PseudoRandom.randDouble();
+
+                // STEP 2.1. Mating selection based on probability
+                if (rnd < delta_) // if (rnd < realb)
+                {
+                    type = 1; // neighborhood
+                } else {
+                    type = 2; // whole population
+                }
+                Vector<Integer> p = new Vector<Integer>();
+                matingSelection(p, neiborN, 2, type, task);
+
+                // STEP 2.2. Reproduction
+                Solution child;
+                Solution[] parents = new Solution[3];
+
+                parents[0] = population_.get(p.get(0));
+                parents[1] = population_.get(p.get(1));
+
+//                改成随机任务交叉效果更差
+//                parents[0] = population_.get((p.get(0) + PseudoRandom.randInt(0, tasknum - 1) * populationSize_) % (tasknum * populationSize_));
+//                parents[1] = population_.get((p.get(1) + PseudoRandom.randInt(0, tasknum - 1) * populationSize_) % (tasknum * populationSize_));
+
+                parents[2] = population_.get(n);
+
+                // Apply DE crossover
+                child = (Solution) crossover_.execute(new Object[] { population_.get(n), parents });
+
+                // Apply mutation
+                mutation_.execute(child);
+
+//                加入迁移
+                for (int t = 0; t < tasknum; t++){
+                    if (t == task) continue;
+//
+                    double tranRand = etmo.util.PseudoRandom.randDouble();
+//                    if (maxEvaluations % 1000 == 0){
                     if (tranRand <= 0.1){
                         problemSet_.get(t).evaluate(child);
                         evaluations_++;
                         updateReference(child, t);
-                        updateProblem(child, neiborN, type, t);
+                        updateProblem2(child, neiborN, type, t);
                     }
                 }
 
             } // for
+//
         } while (evaluations_ < maxEvaluations);
 
         return population_;
@@ -318,6 +381,50 @@ public class MOEAD_NT extends Algorithm {
 
     }
 
+    private void updateProblem2(Solution indiv, int id, int type, int taskId) {
+        // indiv: child solution
+        // id: the id of current subproblem
+        // type: update solutions in - neighborhood (1) or whole population
+        // (otherwise)
+        int size;
+        int time;
+
+        time = 0;
+
+
+        size = populationSize_;
+        int[] perm = new int[size];
+
+        Utils.randomPermutation(perm, size);
+
+        for (int i = 0; i < size; i++) {
+            int k = perm[i];
+
+            double f1, f2;
+
+//            邻域内随机选择权重向量,我觉得会有重复
+            f1 = fitnessFunction(population_.get(k + taskId * populationSize_), lambda_[k], taskId);
+            f2 = fitnessFunction(indiv, lambda_[k], taskId);
+
+//            依次选择权重向量
+//            f1 = fitnessFunction(population_.get(k), lambda_[id]);
+//            f2 = fitnessFunction(indiv, lambda_[id]);
+
+            if (f2 < f1) {
+                population_.replace(k + taskId * populationSize_, new Solution(indiv));
+                // population[k].indiv = indiv;
+                time++;
+            }
+            // the maximal number of solutions updated is not allowed to exceed
+            // 'limit'
+            if (time >= nr_) {
+                return;
+            }
+        }
+
+
+    }
+
     private void matingSelection(Vector<Integer> list, int cid, int size, int type, int tasknum) {
         // list : the set of the indexes of selected mating parents
         // cid : the id of current subproblem
@@ -352,6 +459,42 @@ public class MOEAD_NT extends Algorithm {
         }
 
     }
+
+    private void matingSelection2(Vector<Integer> list, int cid, int size, int type, int tasknum) {
+        // list : the set of the indexes of selected mating parents
+        // cid : the id of current subproblem
+        // size : the number of selected mating parents
+        // type : 1 - neighborhood; otherwise - whole population
+        int ss;
+        int r;
+        int p;
+
+        ss = neighborhood_[cid].length;
+        while (list.size() < size) {
+            if (type == 1) {
+                r = PseudoRandom.randInt(0, ss - 1);
+                p = neighborhood_[cid][r];
+                // p = population[cid].table[r];
+            } else {
+                p = PseudoRandom.randInt(0 , populationSize_ - 1 );
+            }
+            boolean flag = true;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) == p) // p is in the list
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            // if (flag) list.push_back(p);
+            if (flag) {
+                list.addElement(p + tasknum * populationSize_);
+            }
+        }
+
+    }
+
 
     private void initIdealPoint() throws ClassNotFoundException, JMException {
         for (int i = 0; i < problemSet_.get(0).getNumberOfObjectives() * problemSet_.size(); i++) {

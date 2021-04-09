@@ -7,6 +7,7 @@ import etmo.core.SolutionSet;
 import etmo.metaheuristics.utils.printIGD;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
+import etmo.problems.benchmarks_CEC2017.*;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
@@ -37,26 +38,47 @@ MOEAD_main {
         for (int pCase = 1; pCase <= 7; pCase++ ){
             switch (pCase){
                 case 1:
-                    problemSet1 = ETMOF1.getProblem();
+                    problemSet1 = CIHS.getProblem();
                     break;
                 case 2:
-                    problemSet1 = ETMOF2.getProblem();
+                    problemSet1 = CIMS.getProblem();
                     break;
                 case 3:
-                    problemSet1 = ETMOF4.getProblem();
+                    problemSet1 = CILS.getProblem();
                     break;
                 case 4:
-                    problemSet1 = ETMOF5.getProblem();
+                    problemSet1 = PIHS.getProblem();
                     break;
                 case 5:
-                    problemSet1 = ETMOF6.getProblem();
+                    problemSet1 = PIMS.getProblem();
                     break;
                 case 6:
-                    problemSet1 = ETMOF7.getProblem();
+                    problemSet1 = PILS.getProblem();
                     break;
                 case 7:
-                    problemSet1 = ETMOF8.getProblem();
+                    problemSet1 = NIHS.getProblem();
                     break;
+//                case 1:
+//                    problemSet1 = ETMOF1.getProblem();
+//                    break;
+//                case 2:
+//                    problemSet1 = ETMOF2.getProblem();
+//                    break;
+//                case 3:
+//                    problemSet1 = ETMOF4.getProblem();
+//                    break;
+//                case 4:
+//                    problemSet1 = ETMOF5.getProblem();
+//                    break;
+//                case 5:
+//                    problemSet1 = ETMOF6.getProblem();
+//                    break;
+//                case 6:
+//                    problemSet1 = ETMOF7.getProblem();
+//                    break;
+//                case 7:
+//                    problemSet1 = ETMOF8.getProblem();
+//                    break;
                 case 8:
                     problemSet1 = ETMOF3.getProblem();
                     break;
@@ -163,7 +185,7 @@ MOEAD_main {
                 System.out.println(form.format(aveIGD / times));
                 //                System.out.println();
             }
-            String path = "MOEAD_F1-8.txt";
+            String path = "MOEAD_2017F1-7.txt";
             printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
         }

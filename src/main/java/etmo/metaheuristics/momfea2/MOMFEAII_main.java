@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import etmo.metaheuristics.utils.printIGD;
+import etmo.problems.benchmarks_CEC2017.*;
+
 import etmo.util.comparators.LocationComparator;
 import etmo.core.Algorithm;
 import etmo.core.Operator;
@@ -34,26 +36,47 @@ public class MOMFEAII_main {
 		for (int pCase = 1; pCase <= 7; pCase++ ) {
 			switch (pCase) {
 				case 1:
-					problemSet = ETMOF1.getProblem();
+					problemSet = CIHS.getProblem();
 					break;
 				case 2:
-					problemSet = ETMOF2.getProblem();
+					problemSet = CIMS.getProblem();
 					break;
 				case 3:
-					problemSet = ETMOF4.getProblem();
+					problemSet = CILS.getProblem();
 					break;
 				case 4:
-					problemSet = ETMOF5.getProblem();
+					problemSet = PIHS.getProblem();
 					break;
 				case 5:
-					problemSet = ETMOF6.getProblem();
+					problemSet = PIMS.getProblem();
 					break;
 				case 6:
-					problemSet = ETMOF7.getProblem();
+					problemSet = PILS.getProblem();
 					break;
 				case 7:
-					problemSet = ETMOF8.getProblem();
+					problemSet = NIHS.getProblem();
 					break;
+//				case 1:
+//					problemSet = ETMOF1.getProblem();
+//					break;
+//				case 2:
+//					problemSet = ETMOF2.getProblem();
+//					break;
+//				case 3:
+//					problemSet = ETMOF4.getProblem();
+//					break;
+//				case 4:
+//					problemSet = ETMOF5.getProblem();
+//					break;
+//				case 5:
+//					problemSet = ETMOF6.getProblem();
+//					break;
+//				case 6:
+//					problemSet = ETMOF7.getProblem();
+//					break;
+//				case 7:
+//					problemSet = ETMOF8.getProblem();
+//					break;
 				case 8:
 					problemSet = ETMOF3.getProblem();
 					break;
@@ -172,7 +195,7 @@ public class MOMFEAII_main {
 //				System.out.println("Average IGD for " + problemSet.get(i).getName()+ ": " + form.format(ave[i] / times));
 				System.out.println(form.format(ave[i] / times));
 
-			String path = "MOMFEAII_F1-8.txt";
+			String path = "MOMFEAII_2017F1-7.txt";
 			printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 		}
 
