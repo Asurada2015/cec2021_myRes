@@ -328,6 +328,7 @@ public class MaOEAC extends Algorithm {
             normDistance = Math.sqrt(normDistance);
 
             sol.setDistanceToIdealPoint(normDistance);
+//            if (sumValue == Double.POSITIVE_INFINITY) System.out.println("sumValue = INFINITY");
             sol.setSumValue(sumValue);
         }
 
@@ -391,11 +392,10 @@ public class MaOEAC extends Algorithm {
                 for(int j=0;j < offspringSolutionSets[i].size();j++) {
                     double rd0 = PseudoRandom.randDouble();
                     if (rd0 < 0.2) {
-                        parents[0] = (Solution) selection_.execute(population_);
-                        parents[1] = (Solution) selection_.execute(population_);
+                        parents =  (Solution[]) selection_.execute(population_);
                     } else {
-                        parents[0] = (Solution) selection_.execute(offspringSolutionSets[i]);
-                        parents[1] = (Solution) selection_.execute(offspringSolutionSets[i]);
+                        parents = (Solution[]) selection_.execute(offspringSolutionSets[i]);
+//                        parents[1] = (Solution) selection_.execute(offspringSolutionSets[i]);
                     }
                     Solution[] offSpring = (Solution[]) crossover_
                             .execute(parents);

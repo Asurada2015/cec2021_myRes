@@ -516,4 +516,60 @@ public class SolutionSet implements Serializable {
 			}
 		}
     }
+
+
+//    add from MaOEA_AC
+	private double p = 1.0;
+
+	public double getCurve(){
+		return this.p;
+	}
+
+	public void setCurve(double p){
+		this.p = p;
+	}
+
+	public Solution getAdaptiveCentroid(){
+		int objectNumb = 0;
+		if(solutionsList_.size() != 0){
+			objectNumb = solutionsList_.get(0).getNumberOfObjectives();
+		}else{
+			System.out.println("solutionsList size == 0");
+			System.exit(0);
+		}
+		Solution sol = new Solution(objectNumb);
+		double sumValue = 0.0;
+		double pValue = 0.0;
+		for (int m = 0; m < objectNumb; m++) {
+			double value = 0;
+			for (int k = 0; k < solutionsList_.size(); k++) {
+				//value += solutionsList_.get(k).getNormalizedObjective(m)/solutionsList_.get(k).getDistanceToIdealPoint();
+				//value += solutionsList_.get(k).getNormalizedObjective(m);
+				value += solutionsList_.get(k).getIthTranslatedObjective(m);
+			}
+			value = value / solutionsList_.size();
+			sol.setNormalizedObjective(m, value);
+			sumValue += value;
+			pValue += Math.pow(value, p);
+		}
+		pValue = Math.pow(pValue, 1/p);
+		double normDistance = 0.0;
+		for(int i=0;i<objectNumb;i++){
+			double unitValue = 0.0;
+			double ithValue = 0.0;
+			normDistance += Math.pow(sol.getNormalizedObjective(i), 2);
+			unitValue = sol.getNormalizedObjective(i)/sumValue;
+			sol.setUnitHyperplaneObjective(i, unitValue);
+			ithValue = sol.getNormalizedObjective(i)/pValue;
+			sol.setIthTranslatedObjective(i, ithValue);
+		}
+		normDistance = Math.sqrt(normDistance);
+
+		sol.setDistanceToIdealPoint(normDistance);
+		return sol;
+
+	}
+
+
 } // SolutionSet
+

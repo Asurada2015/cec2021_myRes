@@ -634,9 +634,7 @@ public class Solution implements Serializable {
 		normalizedObjective_[j] = val;
     }
 
-	public double
-
-	getNormalizedObjective(int j) {
+	public double getNormalizedObjective(int j) {
 		return normalizedObjective_[j];
 	}
 
@@ -910,6 +908,45 @@ public class Solution implements Serializable {
 		this.parent_ = parent;
 	}
 
+//	public double getTranslatedObjectives(int i) {
+//		return this.translatedObjectives[i];
+//	}
+//
+//	public void setTranslatedObjectives(int i, double val) {
+//		this.translatedObjectives[i] = val;
+//	}
+//
+//	public void setIthTranslatedObjective(int i,double val){
+//		this.translatedObjectives[i] = val;
+//	}
+//
+//	public double getIthTranslatedObjective(int i){
+//		return this.translatedObjectives[i];
+//	}
+
 	/******************************************** end **************************************/
+
+
+//	add from MaOEA_AC
+	public void setIthTranslatedObjective(int i,double val){
+		this.translatedObjectives[i] = val;
+	}
+
+	public double getIthTranslatedObjective(int i){
+		return this.translatedObjectives[i];
+	}
+
+	private int clusterID_;
+	public void setClusterID(int id){
+		this.clusterID_ = id;
+	}
+
+	public int getClusterID(){
+		return this.clusterID_;
+	}
+
+
+
+
 
 } // Solution

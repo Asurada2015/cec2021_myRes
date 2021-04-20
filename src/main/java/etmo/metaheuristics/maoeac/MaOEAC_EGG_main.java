@@ -29,7 +29,7 @@ public class MaOEAC_EGG_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 9; pCase <= 16; pCase++ ){
+        for (int pCase = 12; pCase <= 16; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();
@@ -136,8 +136,8 @@ public class MaOEAC_EGG_main {
                     SolutionSet population = algorithm.execute();
                     Ranking ranking = new Ranking(population);
                     population = ranking.getSubfront(0);
-                    population.printObjectivesToFile("MaOEAC_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
-                            problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
+//                    population.printObjectivesToFile("MaOEAC_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
+//                            problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
                     double igd = indicator.getIGD(population);
                     aveIGD += igd;
 //                    System.out.println(i + "\t" + form.format(igd));

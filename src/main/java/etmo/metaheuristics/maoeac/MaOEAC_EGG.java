@@ -61,6 +61,8 @@ public class MaOEAC_EGG extends Algorithm {
         /*
          * Enter the main loop，into the process of evolution
          */
+
+
         while (generations_ < maxGenerations_) {
             /*
              * step3 and step4:Mating Selection and Recombination to generate Offspring Populations
@@ -111,7 +113,7 @@ public class MaOEAC_EGG extends Algorithm {
                 System.out.println("solutionSets["+k+"] = "+ solutionSets[k].size());
                 System.exit(0);
             }
-//			按照支配关系层取前面的,正好取到满足k但是可能大于k的
+//			按照支配关系层取前面的,正好取到不少于K的个体
             SolutionSet st = getStSolutionSet(solutionSets[k],populationSize_/(problemSet_.get(0).getNumberOfObjectives()));
             List<SolutionSet> list = new <SolutionSet>ArrayList();
             for(int i=0;i<st.size();i++){
@@ -147,7 +149,7 @@ public class MaOEAC_EGG extends Algorithm {
         double minClustering2Axis = 1.0e+30;
         int minClustering2AxisID = -1;
 
-        int cntNaN = 0;
+//        int cntNaN = 0;
         for(int i=0;i<list.size();i++){
             SolutionSet sols = list.get(i);
             if(sols.size() == 0){
@@ -155,8 +157,9 @@ public class MaOEAC_EGG extends Algorithm {
                 System.exit(0);
             }
 
-            double angle1 = Math.acos(Math.abs(sols.getCentroidVector().getNormalizedObjective(k)/(sols.getCentroidVector().getDistanceToIdealPoint())+1.0e-30));
-            if(Double.isNaN(angle1))  cntNaN++;
+//            k指定了轴向量，计算与轴向量的角度
+            double angle1 = Math.acos(Math.abs(sols.getCentroidVector().getNormalizedObjective(k)/(sols.getCentroidVector().getDistanceToIdealPoint())));
+//            if(Double.isNaN(angle1))  cntNaN++;
 
             if(angle1 < minClustering2Axis){
                 minClustering2Axis = angle1;
@@ -164,7 +167,10 @@ public class MaOEAC_EGG extends Algorithm {
             }//if
         }//for
 
-        if(cntNaN == list.size()) System.out.println("BestSolutionSelection Wrong Because of NaN!!");
+//        minClustering2Axis = angle1;  目前确定hcm中最近的
+//        minClustering2AxisID = i;
+
+//        if(cntNaN == list.size()) System.out.println("BestSolutionSelection Wrong Because of NaN!!");
 
         double minSolution2Axis = 1.0e+30;
         int minSolution2AxisID = -1;
@@ -181,6 +187,8 @@ public class MaOEAC_EGG extends Algorithm {
         list.remove(minClustering2AxisID);
 //        上面是选出了该目标大空间里面距离轴向量最近的个体加到下一代
 
+
+//        论文中没有提到的部分：目标域的中心线
         double min2CenterLine = 1.0e+30;
         int min2CenterLineId = -1;
         for(int i=0;i<list.size();i++){
@@ -217,6 +225,7 @@ public class MaOEAC_EGG extends Algorithm {
                 minId = i;
             }
         }
+//        这里概率设置0.5
         if(PseudoRandom.randDouble() < 0.5){
             population_.add(list.get(min2CenterLineId).get(minId));
             list.remove(min2CenterLineId);
@@ -228,6 +237,9 @@ public class MaOEAC_EGG extends Algorithm {
 			System.out.println("ListSize3 = "+list.size());
 			System.exit(0);
 		}*/
+
+
+//        下面是其他类中根据sum指标控制收敛选解
         double delta_ = 1.0;
         Iterator<SolutionSet> it = list.iterator();
         while(it.hasNext()){
@@ -385,11 +397,11 @@ public class MaOEAC_EGG extends Algorithm {
     private void generateOffspringPopulation() throws JMException {
         offspringPopulation_ = new SolutionSet(populationSize_);
         SolutionSet[] offspringSolutionSets = new PartitionalSolutionSet(population_,problemSet_.get(0).getNumberOfObjectives()).partitional();
-        Solution[] gbests = new Solution[problemSet_.get(0).getNumberOfObjectives()];
+//        Solution[] gbests = new Solution[problemSet_.get(0).getNumberOfObjectives()];
         //population_.sort(new SumValueComparator());
         for(int i=0;i<problemSet_.get(0).getNumberOfObjectives();i++ ){
             offspringSolutionSets[i].sort(new SumValueComparator());
-            gbests[i] = offspringSolutionSets[i].get(0);
+//            gbests[i] = offspringSolutionSets[i].get(0);
         }
         for(int i=0;i<problemSet_.get(0).getNumberOfObjectives();i++ ){
 
@@ -510,14 +522,20 @@ public class MaOEAC_EGG extends Algorithm {
 
         learning_ = operators_.get("learning");
 
-        if (populationSize_ % problemSet_.getTotalNumberOfObjs() != 0){
-            while (true){
-                populationSize_ = populationSize_ - 1;
-                if((populationSize_) % problemSet_.getTotalNumberOfObjs() == 0){
-                    break;
-                }
-            }
+//        if (populationSize_ % problemSet_.getTotalNumberOfObjs() != 0){
+//            while (true){
+//                populationSize_ = populationSize_ - 1;
+//                if((populationSize_) % problemSet_.getTotalNumberOfObjs() == 0){
+//                    break;
+//                }
+//            }
+//        }
+
+        while (populationSize_ % problemSet_.getTotalNumberOfObjs() != 0){
+            populationSize_--;
         }
+
+
 
     }
 
