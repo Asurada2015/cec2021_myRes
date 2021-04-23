@@ -143,6 +143,8 @@ public class Solution implements Serializable {
 	 *            indicators
 	 */
 	public Solution(int numberOfObjectives) {
+
+		unitHypersphereObjective_ = new double[numberOfObjectives_];
 		numberOfObjectives_ = numberOfObjectives;
 		objective_ = new double[numberOfObjectives];
 
@@ -198,7 +200,7 @@ public class Solution implements Serializable {
 //		lamda_ = this;
 		rank1 = -1;
 		isMarked = false;
-
+		unitHypersphereObjective_ = new double[numberOfObjectives_];
 
 	} // Solution
 
@@ -233,6 +235,7 @@ public class Solution implements Serializable {
 		// <-
 
 		variable_ = variables;
+		unitHypersphereObjective_ = new double[numberOfObjectives_];
 	} // Constructor
 
 	/**
@@ -303,7 +306,7 @@ public class Solution implements Serializable {
 
 		rank1 = solution.getRank1();
 		isMarked = solution.getRank2();
-
+		unitHypersphereObjective_ = new double[numberOfObjectives_];
 	} // Solution
 
 	/**
@@ -812,6 +815,8 @@ public class Solution implements Serializable {
 		rank1 = -1;
 		isMarked = false;
 
+		unitHypersphereObjective_ = new double[numberOfObjectives_];
+
 	} // Solution
 
 	static public Solution getNewSolution(Problem problem)
@@ -826,7 +831,7 @@ public class Solution implements Serializable {
 	 *            The problem to solve
 	 */
 	public Solution(Problem problem, Variable[] variables) {
-
+		unitHypersphereObjective_ = new double[numberOfObjectives_];
 		type_ = problem.getSolutionType();
 		numberOfObjectives_ = problem.getNumberOfObjectives();
 		objective_ = new double[numberOfObjectives_];
@@ -943,6 +948,15 @@ public class Solution implements Serializable {
 
 	public int getClusterID(){
 		return this.clusterID_;
+	}
+
+//	add from FDEA
+	private double[] unitHypersphereObjective_;
+	public double getUnitHypersphereObjective(int i) {
+		return unitHypersphereObjective_[i];
+	}
+	public void setUnitHypersphereObjective(int i,double unitValue) {
+		unitHypersphereObjective_[i] = unitValue;
 	}
 
 

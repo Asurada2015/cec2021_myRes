@@ -29,7 +29,7 @@ public class MaOEAC_EGG_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 12; pCase <= 16; pCase++ ){
+        for (int pCase = 9; pCase <= 16; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();

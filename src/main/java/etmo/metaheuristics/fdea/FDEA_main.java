@@ -1,11 +1,10 @@
-package etmo.metaheuristics.moea_ac;
+package etmo.metaheuristics.fdea;
 
 import etmo.core.Algorithm;
 import etmo.core.Operator;
 import etmo.core.ProblemSet;
 import etmo.core.SolutionSet;
-import etmo.metaheuristics.maoeac.MaOEAC;
-import etmo.metaheuristics.maoeac.MaOEAC_EGG;
+import etmo.metaheuristics.moea_ac.MaOEA_AC;
 import etmo.operators.crossover.Crossover;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
@@ -19,7 +18,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
-public class MaOEA_AC_main {
+public class FDEA_main {
     public static void main(String[] args) throws IOException, JMException, ClassNotFoundException, jmetal.util.JMException {
         ProblemSet problemSet1; // The problem to solve
         ProblemSet problemSet2;
@@ -30,7 +29,7 @@ public class MaOEA_AC_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 1; pCase <= 8; pCase++ ){
+        for (int pCase = 9; pCase <= 16; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();
@@ -91,7 +90,7 @@ public class MaOEA_AC_main {
             for (int tsk=0;tsk<taskNumber;tsk++) {
 
                 problemSet2 = problemSet1.getTask(tsk);
-                algorithm = new MaOEA_AC(problemSet2);
+                algorithm = new FDEA(problemSet2);
 
                 String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
                 //String pf = "PF/StaticPF/" + "convex.pf";
@@ -103,7 +102,7 @@ public class MaOEA_AC_main {
                 parameters.put("probability", 1.0);
                 parameters.put("distributionIndex", 20.0);
 //                crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover", parameters);
-                crossover = CrossoverFactory.getCrossoverOperator("EGG", parameters);
+                crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
 
                 //Crossover Operators
 //                parameters = new HashMap();
@@ -128,7 +127,7 @@ public class MaOEA_AC_main {
                 algorithm.addOperator("mutation", mutation);
                 algorithm.addOperator("selection", selection);
 
-                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
+//                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
                 DecimalFormat form = new DecimalFormat("#.####E0");
                 QualityIndicator indicator = new QualityIndicator(problemSet2.get(0), pf);
                 int times = 21;
@@ -141,7 +140,7 @@ public class MaOEA_AC_main {
 //                            problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
                     double igd = indicator.getIGD(population);
                     aveIGD += igd;
-                    System.out.println(i + "\t" + form.format(igd));
+//                    System.out.println(i + "\t" + form.format(igd));
                 }
 //                System.out.println("Average IGD for " + problemSet2.get(0).getName() + ": " + form.format(aveIGD / times));
 //                System.out.println();

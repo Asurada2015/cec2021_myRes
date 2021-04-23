@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/src/main/java/etmo/metaheuristics/fdea/FDEA.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/etmo/metaheuristics/fdea/LeastSimilarBasedSampling.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/etmo/metaheuristics/fdea/MostSimilarBasedSampling.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/metaheuristics/moea_ac/HierarchicalClustering.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/metaheuristics/moea_ac/MaOEA_AC.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/metaheuristics/moea_ac/MaxSimilarBasedClustering.java" charset="GBK" />
