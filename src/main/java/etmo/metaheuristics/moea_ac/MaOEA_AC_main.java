@@ -30,7 +30,7 @@ public class MaOEA_AC_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 1; pCase <= 8; pCase++ ){
+        for (int pCase = 9; pCase <= 16; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet1 = ETMOF1.getProblem();
@@ -128,10 +128,10 @@ public class MaOEA_AC_main {
                 algorithm.addOperator("mutation", mutation);
                 algorithm.addOperator("selection", selection);
 
-                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
+//                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
                 DecimalFormat form = new DecimalFormat("#.####E0");
                 QualityIndicator indicator = new QualityIndicator(problemSet2.get(0), pf);
-                int times = 21;
+                int times = 1;
                 double aveIGD = 0;
                 for (int i = 1; i <= times; i++) {
                     SolutionSet population = algorithm.execute();
@@ -141,7 +141,7 @@ public class MaOEA_AC_main {
 //                            problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
                     double igd = indicator.getIGD(population);
                     aveIGD += igd;
-                    System.out.println(i + "\t" + form.format(igd));
+//                    System.out.println(i + "\t" + form.format(igd));
                 }
 //                System.out.println("Average IGD for " + problemSet2.get(0).getName() + ": " + form.format(aveIGD / times));
 //                System.out.println();

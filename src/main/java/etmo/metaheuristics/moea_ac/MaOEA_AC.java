@@ -3,6 +3,7 @@ package etmo.metaheuristics.moea_ac;
 import Jama.Matrix;
 import etmo.core.*;
 import etmo.operators.crossover.EGG;
+import etmo.operators.crossover.SBXCrossover;
 import etmo.operators.selection.RandomSelection;
 import etmo.util.JMException;
 import etmo.util.PseudoRandom;
@@ -107,7 +108,7 @@ public class MaOEA_AC extends Algorithm{
 	 */
 	public void generateOffspringPopulation() throws JMException{
 		offspringPopulation_ = new SolutionSet(populationSize_);
-		if (crossover_.getClass() == RandomSelection.class){
+		if (crossover_.getClass() == SBXCrossover.class){
 			Solution[] parents = new Solution[2];
 			for (int i = 0; i < (populationSize_); i++) {
 				// obtain parents

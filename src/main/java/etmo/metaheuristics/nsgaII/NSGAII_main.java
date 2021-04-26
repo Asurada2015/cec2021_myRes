@@ -27,7 +27,7 @@ public class NSGAII_main {
 		Operator selection;
 
 		HashMap parameters; // Operator parameters
-		for (int pCase = 1; pCase <= 7; pCase++ ){
+		for (int pCase = 1; pCase <= 8; pCase++ ){
 			switch (pCase){
 				case 1:
 					problemSet1 = CIHS.getProblem();

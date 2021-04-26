@@ -8,9 +8,13 @@ import java.io.OutputStreamWriter;
 import Jama.Matrix;
 import etmo.core.*;
 //import etmo.metaheuristics.moea_c.Utils;
+import etmo.operators.crossover.EGG;
+import etmo.operators.crossover.SBXCrossover;
+import etmo.operators.selection.RandomSelection;
 import etmo.util.Configuration;
 import etmo.util.JMException;
 import etmo.util.PseudoRandom;
+import etmo.util.comparators.ObjectiveComparator;
 import etmo.util.ranking.NondominatedRanking;
 import etmo.util.ranking.Ranking;
 import jmetal.metaheuristics.moead.Utils;
@@ -200,22 +204,159 @@ public class FDEA extends Algorithm{
 	
 	public void reproduction(int G, int Gmax) throws JMException{
 		offspringPopulation_ = new SolutionSet(populationSize_);
-		Solution[] parents = new Solution[2];
-		for (int i = 0; i < (populationSize_); i++) {
-			if (G < Gmax) {
-				// obtain parents
-				parents = (Solution[]) selection_.execute(population_);
+		
+		if (crossover_.getClass() == SBXCrossover.class){
+			Solution[] parents = new Solution[2];
+			for (int i = 0; i < (populationSize_); i++) {
+				if (G < Gmax) {
+					// obtain parents
+					parents = (Solution[]) selection_.execute(population_);
 
-				Solution[] offSpring = (Solution[]) crossover_
-						.execute(parents);
-				mutation_.execute(offSpring[0]);
-				problemSet_.get(0).evaluate(offSpring[0]);
-				problemSet_.get(0).evaluateConstraints(offSpring[0]);
-				offspringPopulation_.add(offSpring[0]);
-			} // if
-		} // for
-	}
+					Solution[] offSpring = (Solution[]) crossover_
+							.execute(parents);
+					mutation_.execute(offSpring[0]);
+					problemSet_.get(0).evaluate(offSpring[0]);
+					problemSet_.get(0).evaluateConstraints(offSpring[0]);
+					offspringPopulation_.add(offSpring[0]);
+				} // if
+			} // for
+		}
+		else if (crossover_.getClass() == EGG.class){
+			int[] permutation = new int[populationSize_];
+			Utils.randomPermutation(permutation, populationSize_);
+			etmo.util.Ranking ranking = new etmo.util.Ranking(population_);
+			SolutionSet front = ranking.getSubfront(0);
+
+			front.Suppress();
+			SolutionSet KP = null;
+			if(front.size()> problemSet_.get(0).getNumberOfObjectives())
+				KP = findingKneePoint(front);
+			if(KP == null){
+				KP = population_;
+			}
+
+			for (int i = 0; i < (populationSize_); i++) {
+				// obtain parents
+				int n = permutation[i];
+				// STEP 2.1. Mating selection
+				int r1,r2;
+				r1 = PseudoRandom.randInt(0, KP.size() - 1);
+				do {
+					r2 = PseudoRandom.randInt(0, KP.size() - 1);
+				} while (r2==r1);
+				// STEP 2.2. Reproduction
+				Solution child;
+				Solution[] parents = new Solution[3];
+
+				parents[1] = KP.get(r1);
+				parents[2] = KP.get(r2);
+				parents[0] = population_.get(n);
+				child = (Solution) crossover_.execute(parents);
+
+				mutation_.execute(child);
+
+				problemSet_.get(0).evaluate(child);
+				problemSet_.get(0).evaluateConstraints(child);
+				offspringPopulation_.add(child);
+			} // for
+			
+		}
+		
 	
+	}
+
+	//   add from egg
+	double r_;
+	double t_;
+
+	private SolutionSet findingKneePoint(SolutionSet pop) {
+		Matrix Pop_M, ones_M, ExtremePoint_M, Hyperplane, Distance_M;
+		SolutionSet KneePoint = new SolutionSet();
+		SolutionSet ExtremePoint = new SolutionSet(problemSet_.get(0).getNumberOfObjectives());
+		SolutionSet TempPop = new SolutionSet(pop.size());
+		double [] f_max = new double [problemSet_.get(0).getNumberOfObjectives()];
+		double [] f_min = new double [problemSet_.get(0).getNumberOfObjectives()];
+		for (int i=0;i<problemSet_.get(0).getNumberOfObjectives();i++) {
+			f_max[i]=pop.get(0).getObjective(i);f_min[i]=pop.get(0).getObjective(i);
+		}
+		for(int i=0;i<pop.size();i++) {
+			TempPop.add(pop.get(i));
+			for (int j=0;j<problemSet_.get(0).getNumberOfObjectives();j++) {
+				if(pop.get(i).getObjective(j)>f_max[j]) f_max[j]=pop.get(i).getObjective(j);
+				if(pop.get(i).getObjective(j)<f_min[j]) f_min[j]=pop.get(i).getObjective(j);
+			}
+		}
+		ones_M = new Matrix(problemSet_.get(0).getNumberOfObjectives(),1,1.0);
+		//1. find extrem solution
+		for(int i=0;i<problemSet_.get(0).getNumberOfObjectives();i++){
+			ObjectiveComparator oc = new ObjectiveComparator(i);
+			int best = TempPop.indexBest(oc);
+			ExtremePoint.add(TempPop.get(best));
+			TempPop.remove(best);
+		}
+		for (int i=0;i<ExtremePoint.size();i++){
+			KneePoint.add(ExtremePoint.get(i));
+		}
+
+		//2. calculate extreme hyperplane
+		ExtremePoint_M = new Matrix(ExtremePoint.writeObjectivesToMatrix());
+		if(!ExtremePoint_M.lu().isNonsingular()) return ExtremePoint;
+		Hyperplane = ExtremePoint_M.inverse().times(ones_M);
+		double normHyperplane = Hyperplane.norm2();
+		//Calculate the distance between each solution in TempPop and L
+		Pop_M = new Matrix(TempPop.writeObjectivesToMatrix());
+		Distance_M = Pop_M.times(Hyperplane);
+
+		//Calculate R point
+		r_ = r_*Math.exp(-((1.0-t_/0.5)/(double)problemSet_.get(0).getNumberOfObjectives()));
+		double[] R = new double[problemSet_.get(0).getNumberOfObjectives()];
+		for(int i=0;i<problemSet_.get(0).getNumberOfObjectives();i++)
+			R[i] = (f_max[i]-f_min[i])*r_;
+
+		//Add KneePoint
+		int remain = TempPop.size();
+		boolean Choose[] = new boolean [Distance_M.getRowDimension()];
+		for(int i=0;i<Distance_M.getRowDimension();i++) Choose[i]=false;
+		while(remain>0){
+			//find the largest distance in Distance_M that have contain in KneePoint
+			double largest_dist = Double.NEGATIVE_INFINITY;
+			int idx = -1;
+			for(int i=0;i<Distance_M.getRowDimension();i++){
+				if(!Choose[i]){// judge the ith individual selected/remove or not
+					double dist = -(Distance_M.get(i, 0)-1.0)/normHyperplane;
+					if(dist > largest_dist){
+						largest_dist = dist;
+						idx = i;
+					}
+				}
+			}
+			if(idx!=-1){
+				KneePoint.add(TempPop.get(idx));
+				Solution currentKneeP = TempPop.get(idx);
+				//remove neighbors
+				for(int i=0;i<TempPop.size();i++){
+					if(!Choose[i]){
+						Solution s = TempPop.get(i);
+						boolean flag = true;
+						for(int j=0;j<problemSet_.get(0).getNumberOfObjectives();j++){
+							if(Math.abs(s.getObjective(j)-currentKneeP.getObjective(j))>R[j]) {flag = false;break;}
+						}
+						if(flag){
+							Choose[i]=true;remain--;
+						}
+					}
+				}
+			}else{ // can not find a largest distance in the remain individual
+				break;
+			}
+		}
+
+		//update t_
+		t_ = (double)KneePoint.size()/(double)pop.size();
+		return KneePoint;
+
+	}
+
 	public void reproduction_Neighbor() throws JMException{
 		
 		getNeighborhood_Population();
@@ -274,6 +415,7 @@ public class FDEA extends Algorithm{
 		SolutionSet front = null;
 		SolutionSet mgPopulation = new SolutionSet();
 		front = ranking.getSubfront(index);
+//		System.out.println(generations_ + ": font number = " + front.size());
 		sets[0] = front;
 		while ((remain > 0) && (remain >= front.size())) {
 
