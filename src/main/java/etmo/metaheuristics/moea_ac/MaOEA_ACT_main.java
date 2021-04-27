@@ -98,7 +98,7 @@ public class MaOEA_ACT_main {
             parameters.put("probability", 1.0);
             parameters.put("distributionIndex", 20.0);
 //                crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover", parameters);
-            crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
+            crossover = CrossoverFactory.getCrossoverOperator("EGG", parameters);
 
             //Crossover Operators
 //                parameters = new HashMap();
@@ -127,7 +127,7 @@ public class MaOEA_ACT_main {
             DecimalFormat form = new DecimalFormat("#.####E0");
 
 
-            int times = 21;
+            int times = 1;
             double ave[] = new double[taskNumber];
             double cpIGD[][] = new double[taskNumber][times];
 

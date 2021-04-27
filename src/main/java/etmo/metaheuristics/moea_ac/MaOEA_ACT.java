@@ -777,6 +777,9 @@ public class MaOEA_ACT extends Algorithm{
 
             for (int l = start; l <= end; l++)
                 newSolution.setObjective(l - start, sol.getObjective(l));
+            newSolution.setType(sol.getType());
+            newSolution.setDecisionVariables(sol.getDecisionVariables());
+
             TempPop.add(newSolution);
 
             for (int j=0;j<problemSet_.get(task).getNumberOfObjectives();j++) {
@@ -837,7 +840,7 @@ public class MaOEA_ACT extends Algorithm{
                         Solution s = TempPop.get(i);
                         boolean flag = true;
                         for(int j=0;j<problemSet_.get(task).getNumberOfObjectives();j++){
-                            if(Math.abs(s.getObjective(j + move)-currentKneeP.getObjective(j + move))>R[j]) {flag = false;break;}
+                            if(Math.abs(s.getObjective(j )-currentKneeP.getObjective(j ))>R[j]) {flag = false;break;}
                         }
                         if(flag){
                             Choose[i]=true;remain--;
