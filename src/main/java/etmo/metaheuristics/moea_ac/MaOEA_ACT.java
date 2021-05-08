@@ -200,16 +200,37 @@ public class MaOEA_ACT extends Algorithm{
                     Solution child;
                     Solution[] parents = new Solution[3];
 
-                    parents[1] = KP.get(r1);
-                    parents[2] = KP.get(r2);
-                    parents[0] = population_[task].get(n);
-                    child = (Solution) crossover_.execute(parents);
+//                    加入迁移：
+                    double tranRand = PseudoRandom.randDouble();
+                    if (tranRand <= 0.1){
+                        parents[1] = population_[PseudoRandom.randInt(0, problemSet_.size() - 1)].get(PseudoRandom.randInt(0, populationSize_ - 1));
+                        parents[2] = population_[PseudoRandom.randInt(0, problemSet_.size() - 1)].get(PseudoRandom.randInt(0, populationSize_ - 1));
+                        parents[0] = population_[task].get(n);
+                        child = (Solution) crossover_.execute(parents);
 
-                    mutation_.execute(child);
+                        mutation_.execute(child);
 
-                    problemSet_.get(task).evaluate(child);
-                    problemSet_.get(task).evaluateConstraints(child);
-                    offspringPopulation_[task].add(child);
+                        problemSet_.get(task).evaluate(child);
+                        problemSet_.get(task).evaluateConstraints(child);
+                        offspringPopulation_[task].add(child);
+                    }
+
+
+
+                    else {
+                        parents[1] = KP.get(r1);
+                        parents[2] = KP.get(r2);
+                        parents[0] = population_[task].get(n);
+                        child = (Solution) crossover_.execute(parents);
+
+                        mutation_.execute(child);
+
+                        problemSet_.get(task).evaluate(child);
+                        problemSet_.get(task).evaluateConstraints(child);
+                        offspringPopulation_[task].add(child);
+                    }
+
+
                 } // for
             }
 

@@ -245,6 +245,8 @@ public class Solution implements Serializable {
 	 *            Solution to copy.
 	 */
 	public Solution(Solution solution) {
+
+		pdf = solution.pdf;
 		problemSet_ = solution.problemSet_;
 		type_ = solution.type_;
 
@@ -960,6 +962,16 @@ public class Solution implements Serializable {
 	}
 
 
+//	add from MTEA_AD
+	private double pdf;
+
+	public double getPdf() {
+		return pdf;
+	}
+
+	public void setPdf(double pdf) {
+		this.pdf = pdf;
+	}
 
 
 

@@ -29,7 +29,7 @@ public class HierarchicalClustering {
 			for(int j=0;j<size;j++){
 				if(i != j){
 					angle = computeDistance(list.get(i).getAdaptiveCentroid(),list.get(j).getAdaptiveCentroid());
-					if (Double.isNaN(angle)) System.out.println("angle is NaN");
+//					if (Double.isNaN(angle)) System.out.println("angle is NaN");
 					//angle = computeAngle(list.get(i).getCentroid(),list.get(j).getCentroid());
 					if(min > angle){
 						min = angle;

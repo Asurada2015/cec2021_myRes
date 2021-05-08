@@ -1,7 +1,7 @@
-package etmo.metaheuristics.moea_ac;
+package etmo.metaheuristics.mtea_ad;
 
 import etmo.core.*;
-import etmo.metaheuristics.utils.printIGD;
+import etmo.metaheuristics.moea_ac.MaOEA_ACT;
 import etmo.operators.crossover.Crossover;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
-public class MaOEA_ACT_main {
+public class MTEA_AD_main {
     public static void main(String[] args) throws IOException, JMException, ClassNotFoundException, jmetal.util.JMException {
         ProblemSet problemSet; // The problem to solve
         ProblemSet problemSet2;
@@ -26,7 +26,7 @@ public class MaOEA_ACT_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 9; pCase <= 16; pCase++ ){
+        for (int pCase = 1; pCase <= 8; pCase++ ){
             switch (pCase){
                 case 1:
                     problemSet = ETMOF1.getProblem();
@@ -84,7 +84,7 @@ public class MaOEA_ACT_main {
             int taskNumber = problemSet.size();
 //            System.out.println("taskNumber = "+taskNumber);
 //            System.out.println("TaskID\t" + "IGD for " + problemSet.get(0).getName()+" to " +problemSet.get(taskNumber-1).getName());
-            algorithm = new MaOEA_ACT(problemSet);
+            algorithm = new MTEA_AD(problemSet);
 
             String[] pf = new String[taskNumber];
             for (int i = 0; i < pf.length; i++){
@@ -92,13 +92,13 @@ public class MaOEA_ACT_main {
             }//String pf = "PF/StaticPF/" + "convex.pf";
             //System.out.println(pf);
             algorithm.setInputParameter("populationSize", 100);
-            algorithm.setInputParameter("maxGenerations",1000);
+            algorithm.setInputParameter("maxEvaluations",1000 * 100 * taskNumber);
 
             parameters = new HashMap();
-            parameters.put("probability", 1.0);
+            parameters.put("probability", 0.9);
             parameters.put("distributionIndex", 20.0);
 //                crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover", parameters);
-            crossover = CrossoverFactory.getCrossoverOperator("EGG", parameters);
+            crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);
 
             //Crossover Operators
 //                parameters = new HashMap();
@@ -116,7 +116,7 @@ public class MaOEA_ACT_main {
 
             // Selection Operator
             parameters = null ;
-            selection = SelectionFactory.getSelectionOperator("RandomSelection", parameters) ;
+            selection = SelectionFactory.getSelectionOperator("BinaryTournament2", parameters) ;
 
             // Add the operators to the algorithm
             algorithm.addOperator("crossover", crossover);
@@ -132,12 +132,8 @@ public class MaOEA_ACT_main {
             double cpIGD[][] = new double[taskNumber][times];
 
             for (int t = 1; t <= times; t++) {
-                SolutionSet[] resPopulation = ((MaOEA_ACT) algorithm).execute2();
-                for (int j = 0; j < taskNumber; j++){
-                    Ranking ranking = new Ranking(resPopulation[j]);
-                    SolutionSet SubPopulation = ranking.getSubfront(0);
-                    resPopulation[j] = SubPopulation;
-                }
+                SolutionSet[] resPopulation = ((MTEA_AD) algorithm).executeMultiTask();
+
 
                 SolutionSet[] res = new SolutionSet[taskNumber];
                 for (int i = 0; i < taskNumber; i++){
@@ -157,7 +153,7 @@ public class MaOEA_ACT_main {
 
 
 
-                
+
                 double igd;
 //				System.out.print(t + "\t");
                 for(int i = 0; i < taskNumber; i++){
@@ -189,4 +185,6 @@ public class MaOEA_ACT_main {
 
 
     }
+
+
 }
