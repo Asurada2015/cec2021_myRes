@@ -25,6 +25,7 @@ import java.io.*;
 import java.util.*;
 
 import etmo.util.Configuration;
+import etmo.util.JMException;
 
 /**
  * Class representing a SolutionSet (a set of solutions)
@@ -570,6 +571,17 @@ public class SolutionSet implements Serializable {
 
 	}
 
+//	add from autoencoding
+	public double[][] getIndividual(int task, int popSize) throws JMException {
+		int numVar = solutionsList_.get(0).numberOfVariables();
+		double[][] popIndividual = new double[popSize][numVar];
+		for (int i = 0; i < popSize; i++){
+			for (int j = 0; j < numVar; j++){
+				popIndividual[i][j] = solutionsList_.get(i + task * popSize).getDecisionVariables()[j].getValue();
+			}
+		}
+		return popIndividual;
+	}
 
 } // SolutionSet
 

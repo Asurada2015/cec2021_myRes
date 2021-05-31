@@ -42,7 +42,7 @@ public class AKT_main {
 
 		int cxNum = 7;
 //		选择自适应
-		for (int pCase = 1; pCase <= 7; pCase++ ){
+		for (int pCase = 1; pCase <= 9; pCase++ ){
 				switch(pCase){
 					case 1:
 						problemSet = CIHS.getProblem();
@@ -65,6 +65,13 @@ public class AKT_main {
 					case 7:
 						problemSet = NIHS.getProblem();
 						break;
+					case 8:
+						problemSet = NIMS.getProblem();
+						break;
+					case 9:
+						problemSet = NILS.getProblem();
+						break;
+
 //					case 1:
 //						problemSet = ETMOF1.getProblem();
 //						break;
@@ -86,12 +93,12 @@ public class AKT_main {
 //					case 7:
 //						problemSet = ETMOF8.getProblem();
 //						break;
-					case 8:
-						problemSet = ETMOF3.getProblem();
-						break;
-					case 9:
-						problemSet = ETMOF9.getProblem();
-						break;
+//					case 8:
+//						problemSet = ETMOF3.getProblem();
+//						break;
+//					case 9:
+//						problemSet = ETMOF9.getProblem();
+//						break;
 					case 10:
 						problemSet = ETMOF10.getProblem();
 						break;
@@ -122,9 +129,9 @@ public class AKT_main {
 //				System.out.println("taskNumber = "+taskNumber);
 				
 				String[] pf = new String[taskNumber];
-				for(int i = 0; i < taskNumber; i++) {
-					pf[i] = "PF/StaticPF/" + problemSet.get(i).getHType() + "_" + problemSet.get(i).getNumberOfObjectives() + "D.pf";
-				}		
+				for(int i=0;i<taskNumber;i++) {
+					pf[i] = "PF/cec2017/" + problemSet.get(i).getHType() + ".pf";
+				}
 				algorithm = new MFEAAKT(problemSet);	
 				
 				algorithm.setInputParameter("populationSize",100*taskNumber);
@@ -238,7 +245,7 @@ public class AKT_main {
 				for(int i=0;i<taskNumber;i++)		
 					System.out.println(form.format(ave[i] / times));
 
-				String path = "AKT_2017F1-7.txt";
+				String path = "AKT_CEC2017.txt";
 				printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 			}
 	    }

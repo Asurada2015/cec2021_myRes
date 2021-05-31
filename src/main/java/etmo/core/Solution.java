@@ -107,13 +107,12 @@ public class Solution implements Serializable {
 	 * Used in AbySS.
 	 */
 	private double distanceToSolutionSet_;
-	
-	
-	
+
+
 	private double gFunValue_;
 
 
-//	add from moeac
+	//	add from moeac
 	private double[] normalizedObjective_;
 	private double distanceToIdealPoint;
 	private double[] unitHyperplaneObjective_;
@@ -134,13 +133,12 @@ public class Solution implements Serializable {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param numberOfObjectives
-	 *            Number of objectives of the solution
-	 * 
-	 *            This constructor is used mainly to read objective values from
-	 *            a file to variables of a SolutionSet to apply quality
-	 *            indicators
+	 *
+	 * @param numberOfObjectives Number of objectives of the solution
+	 *                           <p>
+	 *                           This constructor is used mainly to read objective values from
+	 *                           a file to variables of a SolutionSet to apply quality
+	 *                           indicators
 	 */
 	public Solution(int numberOfObjectives) {
 
@@ -159,9 +157,8 @@ public class Solution implements Serializable {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param problemSet
-	 *            The problem to solve
+	 *
+	 * @param problemSet The problem to solve
 	 * @throws ClassNotFoundException
 	 */
 	public Solution(ProblemSet problemSet) throws ClassNotFoundException, JMException {
@@ -169,7 +166,7 @@ public class Solution implements Serializable {
 		type_ = problemSet.getSolutionType();
 		numberOfObjectives_ = problemSet.getTotalNumberOfObjs();
 		objective_ = new double[numberOfObjectives_];
-		
+
 		for (int i = 0; i < numberOfObjectives_; i++)
 			objective_[i] = Double.POSITIVE_INFINITY;
 
@@ -178,7 +175,6 @@ public class Solution implements Serializable {
 		kDistance_ = 0.0;
 		crowdingDistance_ = 0.0;
 		skillFactor_ = -1;
-
 
 
 		variable_ = type_.createVariables();
@@ -210,20 +206,19 @@ public class Solution implements Serializable {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param problemSet
-	 *            The problem to solve
+	 *
+	 * @param problemSet The problem to solve
 	 */
 	public Solution(ProblemSet problemSet, Variable[] variables) {
 		problemSet_ = problemSet;
 		type_ = problemSet.getSolutionType();
 		numberOfObjectives_ = problemSet.getTotalNumberOfObjs();
 		objective_ = new double[numberOfObjectives_];
-		
+
 		for (int i = 0; i < numberOfObjectives_; i++)
 			objective_[i] = Double.POSITIVE_INFINITY;
 
-		
+
 		// Setting initial values
 		fitness_ = 0.0;
 		kDistance_ = 0.0;
@@ -240,9 +235,8 @@ public class Solution implements Serializable {
 
 	/**
 	 * Copy constructor.
-	 * 
-	 * @param solution
-	 *            Solution to copy.
+	 *
+	 * @param solution Solution to copy.
 	 */
 	public Solution(Solution solution) {
 
@@ -255,8 +249,8 @@ public class Solution implements Serializable {
 		for (int i = 0; i < objective_.length; i++) {
 			objective_[i] = solution.getObjective(i);
 		} // for
-			// <-
-		
+		// <-
+
 		variable_ = type_.copyVariables(solution.variable_);
 		overallConstraintViolation_ = solution.getOverallConstraintViolation();
 		numberOfViolatedConstraints_ = solution.getNumberOfViolatedConstraint();
@@ -314,9 +308,8 @@ public class Solution implements Serializable {
 	/**
 	 * Sets the distance between this solution and a <code>SolutionSet</code>.
 	 * The value is stored in <code>distanceToSolutionSet_</code>.
-	 * 
-	 * @param distance
-	 *            The distance to a solutionSet.
+	 *
+	 * @param distance The distance to a solutionSet.
 	 */
 	public void setDistanceToSolutionSet(double distance) {
 		distanceToSolutionSet_ = distance;
@@ -326,7 +319,7 @@ public class Solution implements Serializable {
 	 * Gets the distance from the solution to a <code>SolutionSet</code>.
 	 * <b> REQUIRE </b>: this method has to be invoked after calling
 	 * <code>setDistanceToPopulation</code>.
-	 * 
+	 *
 	 * @return the distance to a specific solutionSet.
 	 */
 	public double getDistanceToSolutionSet() {
@@ -336,9 +329,8 @@ public class Solution implements Serializable {
 	/**
 	 * Sets the distance between the solution and its k-nearest neighbor in a
 	 * <code>SolutionSet</code>. The value is stored in <code>kDistance_</code>.
-	 * 
-	 * @param distance
-	 *            The distance to the k-nearest neighbor.
+	 *
+	 * @param distance The distance to the k-nearest neighbor.
 	 */
 	public void setKDistance(double distance) {
 		kDistance_ = distance;
@@ -349,7 +341,7 @@ public class Solution implements Serializable {
 	 * <code>SolutionSet</code>. Returns the value stored in
 	 * <code>kDistance_</code>. <b> REQUIRE </b>: this method has to be invoked
 	 * after calling <code>setKDistance</code>.
-	 * 
+	 *
 	 * @return the distance to k-nearest neighbor.
 	 */
 	double getKDistance() {
@@ -359,9 +351,8 @@ public class Solution implements Serializable {
 	/**
 	 * Sets the crowding distance of a solution in a <code>SolutionSet</code>.
 	 * The value is stored in <code>crowdingDistance_</code>.
-	 * 
-	 * @param distance
-	 *            The crowding distance of the solution.
+	 *
+	 * @param distance The crowding distance of the solution.
 	 */
 	public void setCrowdingDistance(double distance) {
 		crowdingDistance_ = distance;
@@ -372,7 +363,7 @@ public class Solution implements Serializable {
 	 * <code>SolutionSet</code>. Returns the value stored in
 	 * <code>crowdingDistance_</code>. <b> REQUIRE </b>: this method has to be
 	 * invoked after calling <code>setCrowdingDistance</code>.
-	 * 
+	 *
 	 * @return the distance crowding distance of the solution.
 	 */
 	public double getCrowdingDistance() {
@@ -382,9 +373,8 @@ public class Solution implements Serializable {
 	/**
 	 * Sets the fitness of a solution. The value is stored in
 	 * <code>fitness_</code>.
-	 * 
-	 * @param fitness
-	 *            The fitness of the solution.
+	 *
+	 * @param fitness The fitness of the solution.
 	 */
 	public void setFitness(double fitness) {
 		fitness_ = fitness;
@@ -394,7 +384,7 @@ public class Solution implements Serializable {
 	 * Gets the fitness of the solution. Returns the value of stored in the
 	 * encodings.variable <code>fitness_</code>. <b> REQUIRE </b>: This method
 	 * has to be invoked after calling <code>setFitness()</code>.
-	 * 
+	 *
 	 * @return the fitness.
 	 */
 	public double getFitness() {
@@ -403,11 +393,9 @@ public class Solution implements Serializable {
 
 	/**
 	 * Sets the value of the i-th objective.
-	 * 
-	 * @param i
-	 *            The number identifying the objective.
-	 * @param value
-	 *            The value to be stored.
+	 *
+	 * @param i     The number identifying the objective.
+	 * @param value The value to be stored.
 	 */
 	public void setObjective(int i, double value) {
 		objective_[i] = value;
@@ -415,9 +403,8 @@ public class Solution implements Serializable {
 
 	/**
 	 * Returns the value of the i-th objective.
-	 * 
-	 * @param i
-	 *            The value of the objective.
+	 *
+	 * @param i The value of the objective.
 	 */
 	public double getObjective(int i) {
 		return objective_[i];
@@ -425,7 +412,7 @@ public class Solution implements Serializable {
 
 	/**
 	 * Returns the number of objectives.
-	 * 
+	 *
 	 * @return The number of objectives.
 	 */
 	public int getNumberOfObjectives() {
@@ -437,7 +424,7 @@ public class Solution implements Serializable {
 
 	/**
 	 * Returns the number of decision variables of the solution.
-	 * 
+	 *
 	 * @return The number of decision variables.
 	 */
 	public int numberOfVariables() {
@@ -446,7 +433,7 @@ public class Solution implements Serializable {
 
 	/**
 	 * Returns a string representing the solution.
-	 * 
+	 *
 	 * @return The string.
 	 */
 	public String toString() {
@@ -459,9 +446,9 @@ public class Solution implements Serializable {
 
 	/**
 	 * Returns the decision variables of the solution.
-	 * 
+	 *
 	 * @return the <code>DecisionVariables</code> object representing the
-	 *         decision variables of the solution.
+	 * decision variables of the solution.
 	 */
 	public Variable[] getDecisionVariables() {
 		return variable_;
@@ -469,10 +456,9 @@ public class Solution implements Serializable {
 
 	/**
 	 * Sets the decision variables for the solution.
-	 * 
-	 * @param variables
-	 *            The <code>DecisionVariables</code> object representing the
-	 *            decision variables of the solution.
+	 *
+	 * @param variables The <code>DecisionVariables</code> object representing the
+	 *                  decision variables of the solution.
 	 */
 	public void setDecisionVariables(Variable[] variables) {
 		variable_ = variables;
@@ -484,9 +470,8 @@ public class Solution implements Serializable {
 
 	/**
 	 * Sets the rank of a solution.
-	 * 
-	 * @param value
-	 *            The rank of the solution.
+	 *
+	 * @param value The rank of the solution.
 	 */
 	public void setRank(int value) {
 		this.rank_ = value;
@@ -495,7 +480,7 @@ public class Solution implements Serializable {
 	/**
 	 * Gets the rank of the solution. <b> REQUIRE </b>: This method has to be
 	 * invoked after calling <code>setRank()</code>.
-	 * 
+	 *
 	 * @return the rank of the solution.
 	 */
 	public int getRank() {
@@ -504,9 +489,8 @@ public class Solution implements Serializable {
 
 	/**
 	 * Sets the overall constraints violated by the solution.
-	 * 
-	 * @param value
-	 *            The overall constraints violated by the solution.
+	 *
+	 * @param value The overall constraints violated by the solution.
 	 */
 	public void setOverallConstraintViolation(double value) {
 		this.overallConstraintViolation_ = value;
@@ -516,7 +500,7 @@ public class Solution implements Serializable {
 	 * Gets the overall constraint violated by the solution. <b> REQUIRE </b>:
 	 * This method has to be invoked after calling
 	 * <code>overallConstraintViolation</code>.
-	 * 
+	 *
 	 * @return the overall constraint violation by the solution.
 	 */
 	public double getOverallConstraintViolation() {
@@ -525,9 +509,8 @@ public class Solution implements Serializable {
 
 	/**
 	 * Sets the number of constraints violated by the solution.
-	 * 
-	 * @param value
-	 *            The number of constraints violated by the solution.
+	 *
+	 * @param value The number of constraints violated by the solution.
 	 */
 	public void setNumberOfViolatedConstraint(int value) {
 		this.numberOfViolatedConstraints_ = value;
@@ -537,7 +520,7 @@ public class Solution implements Serializable {
 	 * Gets the number of constraint violated by the solution. <b> REQUIRE </b>:
 	 * This method has to be invoked after calling
 	 * <code>setNumberOfViolatedConstraint</code>.
-	 * 
+	 *
 	 * @return the number of constraints violated by the solution.
 	 */
 	public int getNumberOfViolatedConstraint() {
@@ -546,9 +529,8 @@ public class Solution implements Serializable {
 
 	/**
 	 * Sets the location of the solution into a solutionSet.
-	 * 
-	 * @param location
-	 *            The location of the solution.
+	 *
+	 * @param location The location of the solution.
 	 */
 	public void setLocation(int location) {
 		this.location_ = location;
@@ -558,7 +540,7 @@ public class Solution implements Serializable {
 	 * Gets the location of this solution in a <code>SolutionSet</code>.
 	 * <b> REQUIRE </b>: This method has to be invoked after calling
 	 * <code>setLocation</code>.
-	 * 
+	 *
 	 * @return the location of the solution into a solutionSet
 	 */
 	public int getLocation() {
@@ -567,7 +549,7 @@ public class Solution implements Serializable {
 
 	/**
 	 * Sets the type of the encodings.variable.
-	 * 
+	 *
 	 * @param type
 	 *            The type of the encodings.variable.
 	 */
@@ -577,9 +559,8 @@ public class Solution implements Serializable {
 
 	/**
 	 * Sets the type of the encodings.variable.
-	 * 
-	 * @param type
-	 *            The type of the encodings.variable.
+	 *
+	 * @param type The type of the encodings.variable.
 	 */
 	public void setType(SolutionType type) {
 		type_ = type;
@@ -587,7 +568,7 @@ public class Solution implements Serializable {
 
 	/**
 	 * Gets the type of the encodings.variable
-	 * 
+	 *
 	 * @return the type of the encodings.variable
 	 */
 	public SolutionType getType() {
@@ -596,7 +577,7 @@ public class Solution implements Serializable {
 
 	/**
 	 * Returns the aggregative value of the solution
-	 * 
+	 *
 	 * @return The aggregative value.
 	 */
 	public double getAggregativeValue() {
@@ -622,22 +603,21 @@ public class Solution implements Serializable {
 	public double getUnifiedLowerLimit() {
 		return problemSet_.getUnifiedLowerLimit();
 	}
-	
-	
-	
+
+
 	public double getGFunValue() {
 		return gFunValue_;
 	}
-	
+
 	public void setGFunValue(double gfv) {
 		gFunValue_ = gfv;
 	}
 
 
-//add from moeac
-    public void setNormalizedObjective(int j, double val) {
+	//add from moeac
+	public void setNormalizedObjective(int j, double val) {
 		normalizedObjective_[j] = val;
-    }
+	}
 
 	public double getNormalizedObjective(int j) {
 		return normalizedObjective_[j];
@@ -646,14 +626,17 @@ public class Solution implements Serializable {
 	public void setDistanceToIdealPoint(double distanceToIdealPoint) {
 		this.distanceToIdealPoint = distanceToIdealPoint;
 	}
+
 	public double getDistanceToIdealPoint() {
 		return distanceToIdealPoint;
 	}
 
 	private double sumValue;
+
 	public void setSumValue(double sumValue) {
 		this.sumValue = sumValue;
 	}
+
 	public double getSumValue() {
 		return sumValue;
 	}
@@ -661,22 +644,27 @@ public class Solution implements Serializable {
 	public double getUnitHyperplaneObjective(int i) {
 		return unitHyperplaneObjective_[i];
 	}
-	public void setUnitHyperplaneObjective(int i,double unitValue) {
+
+	public void setUnitHyperplaneObjective(int i, double unitValue) {
 		unitHyperplaneObjective_[i] = unitValue;
 	}
 
 	private boolean remove;
+
 	public boolean isRemove() {
 		return remove;
 	}
+
 	public void setRemove(boolean remove) {
 		this.remove = remove;
 	}
 
 	private int localDensity_;
+
 	public int getLocalDensity_() {
 		return localDensity_;
 	}
+
 	public void setLocalDensity_(int localDensity_) {
 		this.localDensity_ = localDensity_;
 	}
@@ -724,10 +712,12 @@ public class Solution implements Serializable {
 	private double[] translatedObjectives;
 	private int rank1;
 	private boolean isMarked;
+
 	public int getRank1() {
 
 		return this.rank1;
 	}
+
 	public void setRank1(int id1) {
 		this.rank1 = id1;
 	}
@@ -735,6 +725,7 @@ public class Solution implements Serializable {
 	public boolean getRank2() {
 		return this.isMarked;
 	}
+
 	public void setRank2(boolean id2) {
 		this.isMarked = id2;
 	}
@@ -754,8 +745,7 @@ public class Solution implements Serializable {
 	/**
 	 * Constructor.
 	 *
-	 * @param problem
-	 *            The problem to solve
+	 * @param problem The problem to solve
 	 * @throws ClassNotFoundException
 	 */
 	public Solution(Problem problem) throws ClassNotFoundException, JMException {
@@ -829,8 +819,7 @@ public class Solution implements Serializable {
 	/**
 	 * Constructor
 	 *
-	 * @param problem
-	 *            The problem to solve
+	 * @param problem The problem to solve
 	 */
 	public Solution(Problem problem, Variable[] variables) {
 		unitHypersphereObjective_ = new double[numberOfObjectives_];
@@ -866,13 +855,12 @@ public class Solution implements Serializable {
 	 * Copy constructor.
 	 *
 	 * @param solution
-	 *            Solution to copy.
+	 * Solution to copy.
 	 */
 
 
-
-
 	private boolean marked_;
+
 	public boolean isMarked_() {
 		return this.marked_;
 	} // isMarked
@@ -935,34 +923,37 @@ public class Solution implements Serializable {
 
 
 //	add from MaOEA_AC
-	public void setIthTranslatedObjective(int i,double val){
+	public void setIthTranslatedObjective(int i, double val) {
 		this.translatedObjectives[i] = val;
 	}
 
-	public double getIthTranslatedObjective(int i){
+	public double getIthTranslatedObjective(int i) {
 		return this.translatedObjectives[i];
 	}
 
 	private int clusterID_;
-	public void setClusterID(int id){
+
+	public void setClusterID(int id) {
 		this.clusterID_ = id;
 	}
 
-	public int getClusterID(){
+	public int getClusterID() {
 		return this.clusterID_;
 	}
 
-//	add from FDEA
+	//	add from FDEA
 	private double[] unitHypersphereObjective_;
+
 	public double getUnitHypersphereObjective(int i) {
 		return unitHypersphereObjective_[i];
 	}
-	public void setUnitHypersphereObjective(int i,double unitValue) {
+
+	public void setUnitHypersphereObjective(int i, double unitValue) {
 		unitHypersphereObjective_[i] = unitValue;
 	}
 
 
-//	add from MTEA_AD
+	//	add from MTEA_AD
 	private double pdf;
 
 	public double getPdf() {
@@ -971,6 +962,22 @@ public class Solution implements Serializable {
 
 	public void setPdf(double pdf) {
 		this.pdf = pdf;
+	}
+
+	//add from autoEncoder
+	public double[][] getIndiVirables() throws JMException {
+		int varNum = this.numberOfVariables();
+		double[][] indivi = new double[1][varNum];
+		for (int i = 0; i < varNum; i++) {
+			indivi[0][i] = variable_[i].getValue();
+		}
+		return indivi;
+	}
+
+	public void setDecisionVariables(double[][] virables) throws JMException {
+		for (int i = 0; i < numberOfVariables(); i++){
+			this.variable_[i].setValue(virables[0][i]);
+		}
 	}
 
 

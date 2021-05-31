@@ -8,6 +8,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/metaheuristics/moea_ac/MaOEA_AC.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/metaheuristics/moea_ac/MaxSimilarBasedClustering.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/operators/selection/RandomSelection.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/etmo/problems/base/CEC2019/GFunctions.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/util/PairData.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/util/ranking/EnsembleFitnessRanking.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/etmo/util/ranking/NondominatedRanking.java" charset="GBK" />

@@ -35,56 +35,65 @@ MOEAD_main {
         Operator selection;
 
         HashMap parameters; // Operator parameters
-        for (int pCase = 8; pCase <= 8; pCase++ ){
+        for (int pCase = 1; pCase <= 9; pCase++ ){
             switch (pCase){
-//                case 1:
-//                    problemSet1 = CIHS.getProblem();
-//                    break;
-//                case 2:
-//                    problemSet1 = CIMS.getProblem();
-//                    break;
-//                case 3:
-//                    problemSet1 = CILS.getProblem();
-//                    break;
-//                case 4:
-//                    problemSet1 = PIHS.getProblem();
-//                    break;
-//                case 5:
-//                    problemSet1 = PIMS.getProblem();
-//                    break;
-//                case 6:
-//                    problemSet1 = PILS.getProblem();
-//                    break;
-//                case 7:
-//                    problemSet1 = NIHS.getProblem();
-//                    break;
+
                 case 1:
-                    problemSet1 = ETMOF1.getProblem();
+                    problemSet1 = CIHS.getProblem();
                     break;
                 case 2:
-                    problemSet1 = ETMOF2.getProblem();
+                    problemSet1 = CIMS.getProblem();
                     break;
                 case 3:
-                    problemSet1 = ETMOF4.getProblem();
+                    problemSet1 = CILS.getProblem();
                     break;
                 case 4:
-                    problemSet1 = ETMOF5.getProblem();
+                    problemSet1 = PIHS.getProblem();
                     break;
                 case 5:
-                    problemSet1 = ETMOF6.getProblem();
+                    problemSet1 = PIMS.getProblem();
                     break;
                 case 6:
-                    problemSet1 = ETMOF7.getProblem();
+                    problemSet1 = PILS.getProblem();
                     break;
                 case 7:
-                    problemSet1 = ETMOF8.getProblem();
+                    problemSet1 = NIHS.getProblem();
                     break;
                 case 8:
-                    problemSet1 = ETMOF3.getProblem();
+                    problemSet1 = NIMS.getProblem();
                     break;
                 case 9:
-                    problemSet1 = ETMOF9.getProblem();
+                    problemSet1 = NILS.getProblem();
                     break;
+
+
+//                case 1:
+//                    problemSet1 = ETMOF1.getProblem();
+//                    break;
+//                case 2:
+//                    problemSet1 = ETMOF2.getProblem();
+//                    break;
+//                case 3:
+//                    problemSet1 = ETMOF4.getProblem();
+//                    break;
+//                case 4:
+//                    problemSet1 = ETMOF5.getProblem();
+//                    break;
+//                case 5:
+//                    problemSet1 = ETMOF6.getProblem();
+//                    break;
+//                case 6:
+//                    problemSet1 = ETMOF7.getProblem();
+//                    break;
+//                case 7:
+//                    problemSet1 = ETMOF8.getProblem();
+//                    break;
+//                case 8:
+//                    problemSet1 = ETMOF3.getProblem();
+//                    break;
+//                case 9:
+//                    problemSet1 = ETMOF9.getProblem();
+//                    break;
                 case 10:
                     problemSet1 = ETMOF10.getProblem();
                     break;
@@ -106,6 +115,30 @@ MOEAD_main {
                 case 16:
                     problemSet1 = ETMOF16.getProblem();
                     break;
+                case 17:
+                    problemSet1 = ETMOF17.getProblem();
+                    break;
+                case 18:
+                    problemSet1 = ETMOF18.getProblem();
+                    break;
+                case 19:
+                    problemSet1 = ETMOF19.getProblem();
+                    break;
+                case 20:
+                    problemSet1 = ETMOF20.getProblem();
+                    break;
+                case 21:
+                    problemSet1 = ETMOF21.getProblem();
+                    break;
+                case 22:
+                    problemSet1 = ETMOF22.getProblem();
+                    break;
+                case 23:
+                    problemSet1 = ETMOF23.getProblem();
+                    break;
+                case 24:
+                    problemSet1 = ETMOF24.getProblem();
+                    break;
                 default:
                     problemSet1 = ETMOF1.getProblem();
             }
@@ -122,7 +155,8 @@ MOEAD_main {
                 algorithm = new MOEAD(problemSet2);
 
 //                String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.csv";
-                String pfcal = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
+//                String pfcal = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
+                String pfcal =  "PF/cec2017/" + problemSet2.get(0).getHType() + ".pf";
 
 
 //                add chart
@@ -177,15 +211,12 @@ MOEAD_main {
 //                    System.out.println(i + "\t" + form.format(igd));
 //                    resources/weightVectorFiles/moead/W3D_100.dat
                     cpIGD[tsk][i - 1] = igd;
-
-
-
                 }
 //                System.out.println("Average IGD for " + problemSet2.get(0).getName() + ": " + form.format(aveIGD / times));
                 System.out.println(form.format(aveIGD / times));
                 //                System.out.println();
             }
-            String path = "MOEAD_2021F3.txt";
+            String path = "MOEAD_CEC2017.txt";
             printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
         }

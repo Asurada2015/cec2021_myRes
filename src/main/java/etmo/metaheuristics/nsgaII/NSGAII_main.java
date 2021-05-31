@@ -27,7 +27,7 @@ public class NSGAII_main {
 		Operator selection;
 
 		HashMap parameters; // Operator parameters
-		for (int pCase = 1; pCase <= 8; pCase++ ){
+		for (int pCase = 1; pCase <= 9; pCase++ ){
 			switch (pCase){
 				case 1:
 					problemSet1 = CIHS.getProblem();
@@ -50,6 +50,12 @@ public class NSGAII_main {
 				case 7:
 					problemSet1 = NIHS.getProblem();
 					break;
+				case 8:
+					problemSet1 = NIMS.getProblem();
+					break;
+				case 9:
+					problemSet1 = NILS.getProblem();
+					break;
 //				case 1:
 //					problemSet1 = ETMOF1.getProblem();
 //					break;
@@ -71,12 +77,12 @@ public class NSGAII_main {
 //				case 7:
 //					problemSet1 = ETMOF8.getProblem();
 //					break;
-				case 8:
-					problemSet1 = ETMOF3.getProblem();
-					break;
-				case 9:
-					problemSet1 = ETMOF9.getProblem();
-					break;
+//				case 8:
+//					problemSet1 = ETMOF3.getProblem();
+//					break;
+//				case 9:
+//					problemSet1 = ETMOF9.getProblem();
+//					break;
 				case 10:
 					problemSet1 = ETMOF10.getProblem();
 					break;
@@ -114,7 +120,8 @@ public class NSGAII_main {
 				algorithm = new NSGAII(problemSet2);
 
 //                String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.csv";
-				String pfcal = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
+//				String pfcal = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
+				String pfcal =  "PF/cec2017/" + problemSet2.get(0).getHType() + ".pf";
 
 
 //                add chart
@@ -174,7 +181,7 @@ public class NSGAII_main {
 				System.out.println(form.format(aveIGD / times));
 				//                System.out.println();
 			}
-			String path = "NSGAII_2017F1-7.txt";
+			String path = "NSGAII_CEC2017.txt";
 			printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
 

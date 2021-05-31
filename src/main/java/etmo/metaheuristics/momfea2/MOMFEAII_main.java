@@ -33,7 +33,7 @@ public class MOMFEAII_main {
 		
 		HashMap parameters; // Operator parameters
 
-		for (int pCase = 1; pCase <= 7; pCase++ ) {
+		for (int pCase = 1; pCase <= 9; pCase++ ) {
 			switch (pCase) {
 				case 1:
 					problemSet = CIHS.getProblem();
@@ -56,6 +56,13 @@ public class MOMFEAII_main {
 				case 7:
 					problemSet = NIHS.getProblem();
 					break;
+				case 8:
+					problemSet = NIMS.getProblem();
+					break;
+				case 9:
+					problemSet = NILS.getProblem();
+					break;
+
 //				case 1:
 //					problemSet = ETMOF1.getProblem();
 //					break;
@@ -77,12 +84,12 @@ public class MOMFEAII_main {
 //				case 7:
 //					problemSet = ETMOF8.getProblem();
 //					break;
-				case 8:
-					problemSet = ETMOF3.getProblem();
-					break;
-				case 9:
-					problemSet = ETMOF9.getProblem();
-					break;
+//				case 8:
+//					problemSet = ETMOF3.getProblem();
+//					break;
+//				case 9:
+//					problemSet = ETMOF9.getProblem();
+//					break;
 				case 10:
 					problemSet = ETMOF10.getProblem();
 					break;
@@ -112,7 +119,7 @@ public class MOMFEAII_main {
 //			System.out.println("taskNumber = "+taskNumber);
 			String[] pf = new String[taskNumber];
 			for(int i=0;i<taskNumber;i++) {
-				pf[i] = "PF/StaticPF/" + problemSet.get(i).getHType() + "_" + problemSet.get(i).getNumberOfObjectives() + "D.pf";
+				pf[i] = "PF/cec2017/" + problemSet.get(i).getHType() + ".pf";
 			}
 
 			algorithm = new MOMFEAII(problemSet);
@@ -195,7 +202,7 @@ public class MOMFEAII_main {
 //				System.out.println("Average IGD for " + problemSet.get(i).getName()+ ": " + form.format(ave[i] / times));
 				System.out.println(form.format(ave[i] / times));
 
-			String path = "MOMFEAII_2017F1-7.txt";
+			String path = "MOMFEAII_CEC2017.txt";
 			printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 		}
 
