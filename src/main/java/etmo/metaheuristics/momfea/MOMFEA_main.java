@@ -1,12 +1,12 @@
 package etmo.metaheuristics.momfea;
 
 import etmo.core.*;
+import etmo.metaheuristics.utils.Plot2D_demo1;
 import etmo.metaheuristics.utils.printIGD;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.operators.selection.SelectionFactory;
 import etmo.problems.benchmarks_CEC2017.*;
-import etmo.problems.benchmarks_CEC2019.*;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class MOMFEA_main {
-	public static void main(String args[]) throws IOException, JMException, ClassNotFoundException {
+	public static void main(String args[]) throws IOException, JMException, ClassNotFoundException, InterruptedException {
 		ProblemSet problemSet; // The problem to solve
 		Algorithm algorithm; // The algorithm to use
 		Operator crossover; // Crossover operator
@@ -27,65 +27,65 @@ public class MOMFEA_main {
 		HashMap parameters; // Operator parameters
 
 
-		for (int pCase = 1; pCase <= 10; pCase++ ){
+		for (int pCase = 1; pCase <= 9; pCase++ ){
 			switch (pCase){
-				case 1:
-					problemSet = CPLX1.getProblem();
-					break;
-				case 2:
-					problemSet = CPLX2.getProblem();
-					break;
-				case 3:
-					problemSet = CPLX3.getProblem();
-					break;
-				case 4:
-					problemSet = CPLX4.getProblem();
-					break;
-				case 5:
-					problemSet = CPLX5.getProblem();
-					break;
-				case 6:
-					problemSet = CPLX6.getProblem();
-					break;
-				case 7:
-					problemSet = CPLX7.getProblem();
-					break;
-				case 8:
-					problemSet = CPLX8.getProblem();
-					break;
-				case 9:
-					problemSet = CPLX9.getProblem();
-					break;
-				case 10:
-					problemSet = CPLX10.getProblem();
-					break;
 //				case 1:
-//					problemSet = CIHS.getProblem();
+//					problemSet = CPLX1.getProblem();
 //					break;
 //				case 2:
-//					problemSet = CIMS.getProblem();
+//					problemSet = CPLX2.getProblem();
 //					break;
 //				case 3:
-//					problemSet = CILS.getProblem();
+//					problemSet = CPLX3.getProblem();
 //					break;
 //				case 4:
-//					problemSet = PIHS.getProblem();
+//					problemSet = CPLX4.getProblem();
 //					break;
 //				case 5:
-//					problemSet = PIMS.getProblem();
+//					problemSet = CPLX5.getProblem();
 //					break;
 //				case 6:
-//					problemSet = PILS.getProblem();
+//					problemSet = CPLX6.getProblem();
 //					break;
 //				case 7:
-//					problemSet = NIHS.getProblem();
+//					problemSet = CPLX7.getProblem();
 //					break;
 //				case 8:
-//					problemSet = NIMS.getProblem();
+//					problemSet = CPLX8.getProblem();
 //					break;
 //				case 9:
-//					problemSet = NILS.getProblem();
+//					problemSet = CPLX9.getProblem();
 //					break;
+//				case 10:
+//					problemSet = CPLX10.getProblem();
+//					break;
+				case 1:
+					problemSet = CIHS.getProblem();
+					break;
+				case 2:
+					problemSet = CIMS.getProblem();
+					break;
+				case 3:
+					problemSet = CILS.getProblem();
+					break;
+				case 4:
+					problemSet = PIHS.getProblem();
+					break;
+				case 5:
+					problemSet = PIMS.getProblem();
+					break;
+				case 6:
+					problemSet = PILS.getProblem();
+					break;
+				case 7:
+					problemSet = NIHS.getProblem();
+					break;
+				case 8:
+					problemSet = NIMS.getProblem();
+					break;
+				case 9:
+					problemSet = NILS.getProblem();
+					break;
 
 
 //				case 1:
@@ -146,14 +146,14 @@ public class MOMFEA_main {
 
 			String[] pf = new String[problemSet.size()];
 			for (int i = 0; i < pf.length; i++){
-				pf[i] = "PF/cec2019/" + problemSet.get(i).getHType() + ".pf";
+				pf[i] = "PF/cec2017/" + problemSet.get(i).getHType() + ".pf";
 			}
 
 			algorithm = new MOMFEA(problemSet);
 
 			algorithm.setInputParameter("populationSize",100*taskNumber);
 			algorithm.setInputParameter("maxEvaluations",100*taskNumber * 1000);
-			algorithm.setInputParameter("rmp", 0.9);
+			algorithm.setInputParameter("rmp", 0.3);
 
 			parameters = new HashMap();
 			parameters.put("probability", 0.9);
@@ -228,6 +228,10 @@ public class MOMFEA_main {
 //						problemSet.getTask(i).get(0).getName()+ "_" + problemSet.getTask(i).get(0).getNumberOfVariables() + "D_run"+t+".txt");
 //					resPopulation[i].printObjectivesToFile("MOMFEA_"+problemSet.get(i).getNumberOfObjectives()+"Obj_"+
 //							problemSet.get(i).getName()+ "_" + problemSet.get(i).getNumberOfVariables() + "D_run"+t+".txt");
+					//打印一下图
+//					Plot2D_demo1 test = new Plot2D_demo1(pf[i]);
+//					test.doPlot2D(resPopulation[i]);
+
 
 					igd =  indicator.getIGD(resPopulation[i]);
 //					System.out.print(form.format(igd) + "\t" );
@@ -242,7 +246,7 @@ public class MOMFEA_main {
 //				System.out.println("Average IGD for " + problemSet.get(i).getName()+ ": " + form.format(ave[i] / times));
 				System.out.println(form.format(ave[i] / times));
 
-			String path = "MFEA_CEC2019.txt";
+			String path = "MFEA_b_CEC2017.txt";
 			printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
 		}

@@ -96,78 +96,80 @@ public class NSGAII extends Algorithm {
 			population.add(newSolution);
 		} // for
 
+//		注释掉打印点
 		// Generations
-		while (evaluations < maxEvaluations) {
-
-			// Create the offSpring solutionSet
-			offspringPopulation = new SolutionSet(populationSize);
-			Solution[] parents = new Solution[2];
-			for (int i = 0; i < (populationSize / 2); i++) {
-				if (evaluations < maxEvaluations) {
-					// obtain parents
-					parents[0] = (Solution) selectionOperator.execute(population);
-					parents[1] = (Solution) selectionOperator.execute(population);
-					Solution[] offSpring = (Solution[]) crossoverOperator.execute(parents);
-					mutationOperator.execute(offSpring[0]);
-					mutationOperator.execute(offSpring[1]);
-					problemSet_.get(0).evaluate(offSpring[0]);
-					problemSet_.get(0).evaluateConstraints(offSpring[0]);
-					problemSet_.get(0).evaluate(offSpring[1]);
-					problemSet_.get(0).evaluateConstraints(offSpring[1]);
-					offspringPopulation.add(offSpring[0]);
-					offspringPopulation.add(offSpring[1]);
-					evaluations += 2;
-				} // if
-			} // for
-
-			// Create the solutionSet union of solutionSet and offSpring
-			union = ((SolutionSet) population).union(offspringPopulation);
-
-			// Ranking the union
-			Ranking ranking = new Ranking(union);
-
-			int remain = populationSize;
-			int index = 0;
-			SolutionSet front = null;
-			population.clear();
-
-			// Obtain the next front
-			front = ranking.getSubfront(index);
-
-			while ((remain > 0) && (remain >= front.size())) {
-				// Assign crowding distance to individuals
-				distance.crowdingDistanceAssignment(front, problemSet_.get(0).getNumberOfObjectives());
-				// Add the individuals of this front
-				for (int k = 0; k < front.size(); k++) {
-					population.add(front.get(k));
-				} // for
-
-				// Decrement remain
-				remain = remain - front.size();
-
-				// Obtain the next front
-				index++;
-				if (remain > 0) {
-					front = ranking.getSubfront(index);
-				} // if
-			} // while
-
-			// Remain is less than front(index).size, insert only the best one
-			if (remain > 0) { // front contains individuals to insert
-				distance.crowdingDistanceAssignment(front, problemSet_.get(0).getNumberOfObjectives());
-				front.sort(new CrowdingComparator());
-				for (int k = 0; k < remain; k++) {
-					population.add(front.get(k));
-				} // for
-
-				remain = 0;
-			} // if
-
-		} // while
-
-		Ranking ranking = new Ranking(population);
-
-		return ranking.getSubfront(0);
+//		while (evaluations < maxEvaluations) {
+//
+//			// Create the offSpring solutionSet
+//			offspringPopulation = new SolutionSet(populationSize);
+//			Solution[] parents = new Solution[2];
+//			for (int i = 0; i < (populationSize / 2); i++) {
+//				if (evaluations < maxEvaluations) {
+//					// obtain parents
+//					parents[0] = (Solution) selectionOperator.execute(population);
+//					parents[1] = (Solution) selectionOperator.execute(population);
+//					Solution[] offSpring = (Solution[]) crossoverOperator.execute(parents);
+//					mutationOperator.execute(offSpring[0]);
+//					mutationOperator.execute(offSpring[1]);
+//					problemSet_.get(0).evaluate(offSpring[0]);
+//					problemSet_.get(0).evaluateConstraints(offSpring[0]);
+//					problemSet_.get(0).evaluate(offSpring[1]);
+//					problemSet_.get(0).evaluateConstraints(offSpring[1]);
+//					offspringPopulation.add(offSpring[0]);
+//					offspringPopulation.add(offSpring[1]);
+//					evaluations += 2;
+//				} // if
+//			} // for
+//
+//			// Create the solutionSet union of solutionSet and offSpring
+//			union = ((SolutionSet) population).union(offspringPopulation);
+//
+//			// Ranking the union
+//			Ranking ranking = new Ranking(union);
+//
+//			int remain = populationSize;
+//			int index = 0;
+//			SolutionSet front = null;
+//			population.clear();
+//
+//			// Obtain the next front
+//			front = ranking.getSubfront(index);
+//
+//			while ((remain > 0) && (remain >= front.size())) {
+//				// Assign crowding distance to individuals
+//				distance.crowdingDistanceAssignment(front, problemSet_.get(0).getNumberOfObjectives());
+//				// Add the individuals of this front
+//				for (int k = 0; k < front.size(); k++) {
+//					population.add(front.get(k));
+//				} // for
+//
+//				// Decrement remain
+//				remain = remain - front.size();
+//
+//				// Obtain the next front
+//				index++;
+//				if (remain > 0) {
+//					front = ranking.getSubfront(index);
+//				} // if
+//			} // while
+//
+//			// Remain is less than front(index).size, insert only the best one
+//			if (remain > 0) { // front contains individuals to insert
+//				distance.crowdingDistanceAssignment(front, problemSet_.get(0).getNumberOfObjectives());
+//				front.sort(new CrowdingComparator());
+//				for (int k = 0; k < remain; k++) {
+//					population.add(front.get(k));
+//				} // for
+//
+//				remain = 0;
+//			} // if
+//
+//		} // while
+//
+//		Ranking ranking = new Ranking(population);
+//
+//		return ranking.getSubfront(0);
+		return population;
 		
 	} // execute
 } // NSGA-II

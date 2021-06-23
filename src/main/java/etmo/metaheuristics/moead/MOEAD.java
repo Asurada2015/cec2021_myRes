@@ -155,6 +155,11 @@ public class MOEAD extends Algorithm {
                 // STEP 2.5. Update of solutions
                 updateProblem(child, n, type);
             } // for
+
+            //更新一代后画动态图
+
+
+
         } while (evaluations_ < maxEvaluations);
 
         return population_;

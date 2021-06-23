@@ -6,6 +6,7 @@ import etmo.operators.crossover.Crossover;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.operators.selection.SelectionFactory;
+import etmo.problems.benchmarks_CEC2017.*;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
@@ -26,35 +27,64 @@ public class MaOEA_ACT_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 9; pCase <= 16; pCase++ ){
+        for (int pCase = 1; pCase <= 9; pCase++ ){
             switch (pCase){
                 case 1:
-                    problemSet = ETMOF1.getProblem();
+                    problemSet = CIHS.getProblem();
                     break;
                 case 2:
-                    problemSet = ETMOF2.getProblem();
+                    problemSet = CIMS.getProblem();
                     break;
                 case 3:
-                    problemSet = ETMOF3.getProblem();
+                    problemSet = CILS.getProblem();
                     break;
                 case 4:
-                    problemSet = ETMOF4.getProblem();
+                    problemSet = PIHS.getProblem();
                     break;
                 case 5:
-                    problemSet = ETMOF5.getProblem();
+                    problemSet = PIMS.getProblem();
                     break;
                 case 6:
-                    problemSet = ETMOF6.getProblem();
+                    problemSet = PILS.getProblem();
                     break;
                 case 7:
-                    problemSet = ETMOF7.getProblem();
+                    problemSet = NIHS.getProblem();
                     break;
                 case 8:
-                    problemSet = ETMOF8.getProblem();
+                    problemSet = NIMS.getProblem();
                     break;
                 case 9:
-                    problemSet = ETMOF9.getProblem();
+                    problemSet = NILS.getProblem();
                     break;
+
+
+//                case 1:
+//                    problemSet = ETMOF1.getProblem();
+//                    break;
+//                case 2:
+//                    problemSet = ETMOF2.getProblem();
+//                    break;
+//                case 3:
+//                    problemSet = ETMOF3.getProblem();
+//                    break;
+//                case 4:
+//                    problemSet = ETMOF4.getProblem();
+//                    break;
+//                case 5:
+//                    problemSet = ETMOF5.getProblem();
+//                    break;
+//                case 6:
+//                    problemSet = ETMOF6.getProblem();
+//                    break;
+//                case 7:
+//                    problemSet = ETMOF7.getProblem();
+//                    break;
+//                case 8:
+//                    problemSet = ETMOF8.getProblem();
+//                    break;
+//                case 9:
+//                    problemSet = ETMOF9.getProblem();
+//                    break;
                 case 10:
                     problemSet = ETMOF10.getProblem();
                     break;
@@ -88,7 +118,8 @@ public class MaOEA_ACT_main {
 
             String[] pf = new String[taskNumber];
             for (int i = 0; i < pf.length; i++){
-                pf[i] = "PF/StaticPF/" + problemSet.get(i).getHType() + "_" + problemSet.get(i).getNumberOfObjectives() + "D.pf";
+                pf[i] = "PF/cec2017/" + problemSet.get(i).getHType() + ".pf";
+//                pf[i] = "PF/StaticPF/" + problemSet.get(i).getHType() + "_" + problemSet.get(i).getNumberOfObjectives() + "D.pf";
             }//String pf = "PF/StaticPF/" + "convex.pf";
             //System.out.println(pf);
             algorithm.setInputParameter("populationSize", 100);
@@ -175,8 +206,8 @@ public class MaOEA_ACT_main {
             for(int i=0;i<taskNumber;i++)
                 System.out.println(form.format(ave[i] / times));
 
-//            String path = "MaOEA_ACT_2021F9-16.txt";
-//            printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
+            String path = "MaOEA_ACT_cec2017.txt";
+            printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
 
 

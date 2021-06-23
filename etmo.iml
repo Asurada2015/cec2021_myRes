@@ -68,11 +68,6 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.10.3" level="project" />
     <orderEntry type="library" name="Maven: io.pebbletemplates:pebble:3.1.2" level="project" />
     <orderEntry type="library" name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.github.haifengl:smile-core:2.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.github.haifengl:smile-data:2.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.github.haifengl:smile-math:2.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.github.haifengl:smile-graph:2.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.github.haifengl:smile-netlib:2.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.haifengl:smile-plot:2.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.swinglabs:swingx:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: com.jhlabs:filters:2.0.235" level="project" />
@@ -235,5 +230,10 @@
     <orderEntry type="library" name="Maven: com.tdunning:t-digest:3.2" level="project" />
     <orderEntry type="library" name="Maven: it.unimi.dsi:fastutil:6.5.7" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: org.jfree:jfreechart:1.5.3" level="project" />
+    <orderEntry type="library" name="Maven: com.github.haifengl:smile-core:2.6.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.haifengl:smile-data:2.6.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.haifengl:smile-math:2.6.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.haifengl:smile-graph:2.6.0" level="project" />
   </component>
 </module>

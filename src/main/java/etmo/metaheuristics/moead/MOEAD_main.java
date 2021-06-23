@@ -4,10 +4,12 @@ import etmo.core.Algorithm;
 import etmo.core.Operator;
 import etmo.core.ProblemSet;
 import etmo.core.SolutionSet;
+import etmo.metaheuristics.utils.Plot2D_demo1;
 import etmo.metaheuristics.utils.printIGD;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.problems.benchmarks_CEC2017.*;
+import etmo.problems.benchmarks_CEC2019.*;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
@@ -25,7 +27,7 @@ import java.util.List;
 public class
 
 MOEAD_main {
-    public static void main(String args[]) throws IOException, JMException, ClassNotFoundException {
+    public static void main(String args[]) throws IOException, JMException, ClassNotFoundException, InterruptedException {
         ProblemSet problemSet1; // The problem to solve
         ProblemSet problemSet2;
 
@@ -35,36 +37,66 @@ MOEAD_main {
         Operator selection;
 
         HashMap parameters; // Operator parameters
-        for (int pCase = 1; pCase <= 9; pCase++ ){
+        for (int pCase = 1; pCase <=10; pCase++ ){
             switch (pCase){
-
                 case 1:
-                    problemSet1 = CIHS.getProblem();
+                    problemSet1 = CPLX1.getProblem();
                     break;
                 case 2:
-                    problemSet1 = CIMS.getProblem();
+                    problemSet1 = CPLX2.getProblem();
                     break;
                 case 3:
-                    problemSet1 = CILS.getProblem();
+                    problemSet1 = CPLX3.getProblem();
                     break;
                 case 4:
-                    problemSet1 = PIHS.getProblem();
+                    problemSet1 = CPLX4.getProblem();
                     break;
                 case 5:
-                    problemSet1 = PIMS.getProblem();
+                    problemSet1 = CPLX5.getProblem();
                     break;
                 case 6:
-                    problemSet1 = PILS.getProblem();
+                    problemSet1 = CPLX6.getProblem();
                     break;
                 case 7:
-                    problemSet1 = NIHS.getProblem();
+                    problemSet1 = CPLX7.getProblem();
                     break;
                 case 8:
-                    problemSet1 = NIMS.getProblem();
+                    problemSet1 = CPLX8.getProblem();
                     break;
                 case 9:
-                    problemSet1 = NILS.getProblem();
+                    problemSet1 = CPLX9.getProblem();
                     break;
+                case 10:
+                    problemSet1 = CPLX10.getProblem();
+                    break;
+
+//                case 1:
+//                    problemSet1 = CIHS.getProblem();
+//                    break;
+//                case 2:
+//                    problemSet1 = CIMS.getProblem();
+//                    break;
+//                case 3:
+//                    problemSet1 = CILS.getProblem();
+//                    break;
+//                case 4:
+//                    problemSet1 = PIHS.getProblem();
+//                    break;
+//                case 5:
+//                    problemSet1 = PIMS.getProblem();
+//                    break;
+//                case 6:
+//                    problemSet1 = PILS.getProblem();
+//                    break;
+//                case 7:
+//                    problemSet1 = NIHS.getProblem();
+//                    break;
+//                case 8:
+//                    problemSet1 = NIMS.getProblem();
+//                    break;
+//                case 9:
+//                    problemSet1 = NILS.getProblem();
+//                    break;
 
 
 //                case 1:
@@ -94,9 +126,9 @@ MOEAD_main {
 //                case 9:
 //                    problemSet1 = ETMOF9.getProblem();
 //                    break;
-                case 10:
-                    problemSet1 = ETMOF10.getProblem();
-                    break;
+//                case 10:
+//                    problemSet1 = ETMOF10.getProblem();
+//                    break;
                 case 11:
                     problemSet1 = ETMOF11.getProblem();
                     break;
@@ -156,9 +188,9 @@ MOEAD_main {
 
 //                String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.csv";
 //                String pfcal = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
-                String pfcal =  "PF/cec2017/" + problemSet2.get(0).getHType() + ".pf";
-
-
+                String pfcal =  "PF/cec2019/" + problemSet2.get(0).getHType() + ".pf";
+//
+//
 //                add chart
 //                List<Double> referencePoint = new ArrayList<>() ;
 
@@ -169,8 +201,8 @@ MOEAD_main {
 //                chart.setReferencePoint(convertReferencePointListToListOfLists(referencePoint, problemSet2.getNumberOfObjs(0)));
 //                chart.initChart();
 
-                algorithm.setInputParameter("populationSize", 100);
-                algorithm.setInputParameter("maxEvaluations", 100 * 1000);
+                algorithm.setInputParameter("populationSize", 10000);
+                algorithm.setInputParameter("maxEvaluations", 100 * 100);
 
                 algorithm.setInputParameter("dataDirectory", "resources/weightVectorFiles/moead");
 
@@ -181,7 +213,7 @@ MOEAD_main {
 
                 parameters = new HashMap();
                 parameters.put("CR", 1.0);
-                parameters.put("F", 0.5);
+                parameters.put("F", 0.9);
                 crossover = CrossoverFactory.getCrossoverOperator("DifferentialEvolutionCrossover",parameters);
 
                 // Mutation operator
@@ -205,6 +237,9 @@ MOEAD_main {
 //                    chart.saveChart("moead", BitmapEncoder.BitmapFormat.PNG);
 //                    population.printObjectivesToFile("MOEAD_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
 //                        problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
+//                    Plot2D_demo1 test = new Plot2D_demo1(pfcal);
+//                    test.doPlot2D(population);
+
                     double igd = indicator.getIGD(population);
                     aveIGD += igd;
 //                    System.out.println(i + "\t" + form.format(igd));
@@ -216,8 +251,8 @@ MOEAD_main {
                 System.out.println(form.format(aveIGD / times));
                 //                System.out.println();
             }
-            String path = "MOEAD_CEC2017.txt";
-            printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
+//            String path = "MOEAD_B_CEC2017.txt";
+//            printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
         }
 

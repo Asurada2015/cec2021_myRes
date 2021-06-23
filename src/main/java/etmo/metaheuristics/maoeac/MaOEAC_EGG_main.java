@@ -4,10 +4,12 @@ import etmo.core.Algorithm;
 import etmo.core.Operator;
 import etmo.core.ProblemSet;
 import etmo.core.SolutionSet;
+import etmo.metaheuristics.utils.Plot2D_demo1;
 import etmo.operators.crossover.Crossover;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.operators.selection.SelectionFactory;
+import etmo.problems.benchmarks_CEC2019.*;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
@@ -19,7 +21,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class MaOEAC_EGG_main {
-    public static void main(String[] args) throws IOException, JMException, ClassNotFoundException, jmetal.util.JMException {
+    public static void main(String[] args) throws IOException, JMException, ClassNotFoundException, jmetal.util.JMException, InterruptedException {
         ProblemSet problemSet1; // The problem to solve
         ProblemSet problemSet2;
         Algorithm algorithm; // The algorithm to use
@@ -29,38 +31,70 @@ public class MaOEAC_EGG_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 9; pCase <= 16; pCase++ ){
+        for (int pCase = 1; pCase <= 1; pCase++ ){
             switch (pCase){
                 case 1:
-                    problemSet1 = ETMOF1.getProblem();
+                    problemSet1 = CPLX1.getProblem();
                     break;
                 case 2:
-                    problemSet1 = ETMOF2.getProblem();
+                    problemSet1 = CPLX2.getProblem();
                     break;
                 case 3:
-                    problemSet1 = ETMOF3.getProblem();
+                    problemSet1 = CPLX3.getProblem();
                     break;
                 case 4:
-                    problemSet1 = ETMOF4.getProblem();
+                    problemSet1 = CPLX4.getProblem();
                     break;
                 case 5:
-                    problemSet1 = ETMOF5.getProblem();
+                    problemSet1 = CPLX5.getProblem();
                     break;
                 case 6:
-                    problemSet1 = ETMOF6.getProblem();
+                    problemSet1 = CPLX6.getProblem();
                     break;
                 case 7:
-                    problemSet1 = ETMOF7.getProblem();
+                    problemSet1 = CPLX7.getProblem();
                     break;
                 case 8:
-                    problemSet1 = ETMOF8.getProblem();
+                    problemSet1 = CPLX8.getProblem();
                     break;
                 case 9:
-                    problemSet1 = ETMOF9.getProblem();
+                    problemSet1 = CPLX9.getProblem();
                     break;
                 case 10:
-                    problemSet1 = ETMOF10.getProblem();
+                    problemSet1 = CPLX10.getProblem();
                     break;
+
+
+//                case 1:
+//                    problemSet1 = ETMOF1.getProblem();
+//                    break;
+//                case 2:
+//                    problemSet1 = ETMOF2.getProblem();
+//                    break;
+//                case 3:
+//                    problemSet1 = ETMOF3.getProblem();
+//                    break;
+//                case 4:
+//                    problemSet1 = ETMOF4.getProblem();
+//                    break;
+//                case 5:
+//                    problemSet1 = ETMOF5.getProblem();
+//                    break;
+//                case 6:
+//                    problemSet1 = ETMOF6.getProblem();
+//                    break;
+//                case 7:
+//                    problemSet1 = ETMOF7.getProblem();
+//                    break;
+//                case 8:
+//                    problemSet1 = ETMOF8.getProblem();
+//                    break;
+//                case 9:
+//                    problemSet1 = ETMOF9.getProblem();
+//                    break;
+//                case 10:
+//                    problemSet1 = ETMOF10.getProblem();
+//                    break;
                 case 11:
                     problemSet1 = ETMOF11.getProblem();
                     break;
@@ -130,12 +164,15 @@ public class MaOEAC_EGG_main {
 //                System.out.println("RunID\t" + "IGD for " + problemSet2.get(0).getName());
                 DecimalFormat form = new DecimalFormat("#.####E0");
                 QualityIndicator indicator = new QualityIndicator(problemSet2.get(0), pf);
-                int times = 21;
+                int times = 1;
                 double aveIGD = 0;
                 for (int i = 1; i <= times; i++) {
                     SolutionSet population = algorithm.execute();
                     Ranking ranking = new Ranking(population);
                     population = ranking.getSubfront(0);
+
+                    Plot2D_demo1 test = new Plot2D_demo1(pf);
+                    test.doPlot2D(population);
 //                    population.printObjectivesToFile("MaOEAC_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
 //                            problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
                     double igd = indicator.getIGD(population);

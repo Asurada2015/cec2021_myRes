@@ -7,18 +7,20 @@ import java.util.HashMap;
 
 import etmo.core.*;
 import etmo.metaheuristics.moead.MOEAD;
+import etmo.metaheuristics.utils.Plot2D_demo1;
 import etmo.metaheuristics.utils.printIGD;
 import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.operators.selection.SelectionFactory;
 import etmo.problems.benchmarks_CEC2017.*;
+import etmo.problems.benchmarks_CEC2019.*;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
 import etmo.util.Ranking;
 
 public class NSGAII_main {
-	public static void main(String args[]) throws IOException, JMException, ClassNotFoundException {
+	public static void main(String args[]) throws IOException, JMException, ClassNotFoundException, InterruptedException {
 		ProblemSet problemSet1; // The problem to solve
 		ProblemSet problemSet2;
 		Algorithm algorithm; // The algorithm to use
@@ -27,35 +29,65 @@ public class NSGAII_main {
 		Operator selection;
 
 		HashMap parameters; // Operator parameters
-		for (int pCase = 1; pCase <= 9; pCase++ ){
+		for (int pCase = 1; pCase <= 1; pCase++ ){
 			switch (pCase){
 				case 1:
-					problemSet1 = CIHS.getProblem();
+					problemSet1 = CPLX1.getProblem();
 					break;
 				case 2:
-					problemSet1 = CIMS.getProblem();
+					problemSet1 = CPLX2.getProblem();
 					break;
 				case 3:
-					problemSet1 = CILS.getProblem();
+					problemSet1 = CPLX3.getProblem();
 					break;
 				case 4:
-					problemSet1 = PIHS.getProblem();
+					problemSet1 = CPLX4.getProblem();
 					break;
 				case 5:
-					problemSet1 = PIMS.getProblem();
+					problemSet1 = CPLX5.getProblem();
 					break;
 				case 6:
-					problemSet1 = PILS.getProblem();
+					problemSet1 = CPLX6.getProblem();
 					break;
 				case 7:
-					problemSet1 = NIHS.getProblem();
+					problemSet1 = CPLX7.getProblem();
 					break;
 				case 8:
-					problemSet1 = NIMS.getProblem();
+					problemSet1 = CPLX8.getProblem();
 					break;
 				case 9:
-					problemSet1 = NILS.getProblem();
+					problemSet1 = CPLX9.getProblem();
 					break;
+				case 10:
+					problemSet1 = CPLX10.getProblem();
+					break;
+//				case 1:
+//					problemSet1 = CIHS.getProblem();
+//					break;
+//				case 2:
+//					problemSet1 = CIMS.getProblem();
+//					break;
+//				case 3:
+//					problemSet1 = CILS.getProblem();
+//					break;
+//				case 4:
+//					problemSet1 = PIHS.getProblem();
+//					break;
+//				case 5:
+//					problemSet1 = PIMS.getProblem();
+//					break;
+//				case 6:
+//					problemSet1 = PILS.getProblem();
+//					break;
+//				case 7:
+//					problemSet1 = NIHS.getProblem();
+//					break;
+//				case 8:
+//					problemSet1 = NIMS.getProblem();
+//					break;
+//				case 9:
+//					problemSet1 = NILS.getProblem();
+//					break;
 //				case 1:
 //					problemSet1 = ETMOF1.getProblem();
 //					break;
@@ -83,9 +115,9 @@ public class NSGAII_main {
 //				case 9:
 //					problemSet1 = ETMOF9.getProblem();
 //					break;
-				case 10:
-					problemSet1 = ETMOF10.getProblem();
-					break;
+//				case 10:
+//					problemSet1 = ETMOF10.getProblem();
+//					break;
 				case 11:
 					problemSet1 = ETMOF11.getProblem();
 					break;
@@ -110,7 +142,7 @@ public class NSGAII_main {
 
 			int taskNumber = problemSet1.size();
 //            System.out.println("taskNumber = "+taskNumber);
-			int times = 21;
+			int times = 1;
 			double cpIGD[][] = new double[taskNumber][times];
 
 			for (int tsk = 0; tsk < taskNumber; tsk++) {
@@ -121,7 +153,7 @@ public class NSGAII_main {
 
 //                String pf = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.csv";
 //				String pfcal = "PF/StaticPF/" + problemSet2.get(0).getHType() + "_" + problemSet2.get(0).getNumberOfObjectives() + "D.pf";
-				String pfcal =  "PF/cec2017/" + problemSet2.get(0).getHType() + ".pf";
+				String pfcal =  "PF/cec2019/" + problemSet2.get(0).getHType() + ".pf";
 
 
 //                add chart
@@ -167,6 +199,13 @@ public class NSGAII_main {
 //                    chart.saveChart("moead", BitmapEncoder.BitmapFormat.PNG);
 //                    population.printObjectivesToFile("MOEAD_"+problemSet2.get(0).getNumberOfObjectives()+"Obj_"+
 //                        problemSet2.get(0).getName()+ "_" + problemSet2.get(0).getNumberOfVariables() + "D_run"+i+".txt");
+
+//					Ranking ranking = new Ranking(population);
+//					population = ranking.getSubfront(0);
+					Plot2D_demo1 test = new Plot2D_demo1(pfcal);
+					test.doPlot2D(population);
+
+
 					double igd = indicator.getIGD(population);
 					aveIGD += igd;
 					cpIGD[tsk][i - 1] = igd;
@@ -181,8 +220,8 @@ public class NSGAII_main {
 				System.out.println(form.format(aveIGD / times));
 				//                System.out.println();
 			}
-			String path = "NSGAII_CEC2017.txt";
-			printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
+//			String path = "NSGAII_CEC2021.txt";
+//			printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
 
 
 		}

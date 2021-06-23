@@ -3,6 +3,9 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/Jama-1.0.3.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/jmetal.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/Matplot3d_4j_sydh_V2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/Matplotlib_3d_4j_sydh_V2.0_demo.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jfreechart-demo-1.5.2-jar-with-dependencies.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

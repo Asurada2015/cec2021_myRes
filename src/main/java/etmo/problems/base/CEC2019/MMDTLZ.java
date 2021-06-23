@@ -94,7 +94,7 @@ public class MMDTLZ extends Problem {
 
 		for (int i = numberOfObjectives_ - 1; i < numberOfVariables_; i++)
 			xII[i - numberOfObjectives_ + 1] = vars[i];
-		//xII = transformVariables(xII);
+//		xII = transformVariables(xII);
 
 		double[] f = new double[numberOfObjectives_];
 

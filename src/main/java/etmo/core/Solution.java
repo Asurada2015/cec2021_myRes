@@ -117,6 +117,19 @@ public class Solution implements Serializable {
 	private double distanceToIdealPoint;
 	private double[] unitHyperplaneObjective_;
 
+
+
+
+	// add from dra
+	private  double utility;
+
+	public void setUtility(double utility) {
+		this.utility = utility;
+	}
+	public double getUtility() {
+		return utility;
+	}
+
 	/**
 	 * Constructor.
 	 */
@@ -239,6 +252,8 @@ public class Solution implements Serializable {
 	 * @param solution Solution to copy.
 	 */
 	public Solution(Solution solution) {
+
+		this.utility = solution.utility;
 
 		pdf = solution.pdf;
 		problemSet_ = solution.problemSet_;

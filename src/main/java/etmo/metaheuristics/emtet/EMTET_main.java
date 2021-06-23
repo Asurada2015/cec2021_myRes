@@ -6,6 +6,7 @@ import etmo.operators.crossover.CrossoverFactory;
 import etmo.operators.mutation.MutationFactory;
 import etmo.operators.selection.SelectionFactory;
 import etmo.problems.benchmarks_CEC2017.*;
+import etmo.problems.benchmarks_CEC2019.*;
 import etmo.problems.benchmarks_ETMO.*;
 import etmo.qualityIndicator.QualityIndicator;
 import etmo.util.JMException;
@@ -26,29 +27,86 @@ public class EMTET_main {
 
         HashMap parameters; // Operator parameters
 
-        for (int pCase = 1; pCase <= 7; pCase++ ) {
+        for (int pCase = 1; pCase <= 10; pCase++ ) {
             switch (pCase) {
                 case 1:
-                    problemSet = CIHS.getProblem();
+                    problemSet = CPLX1.getProblem();
                     break;
                 case 2:
-                    problemSet = CIMS.getProblem();
+                    problemSet = CPLX2.getProblem();
                     break;
                 case 3:
-                    problemSet = CILS.getProblem();
+                    problemSet = CPLX3.getProblem();
                     break;
                 case 4:
-                    problemSet = PIHS.getProblem();
+                    problemSet = CPLX4.getProblem();
                     break;
                 case 5:
-                    problemSet = PIMS.getProblem();
+                    problemSet = CPLX5.getProblem();
                     break;
                 case 6:
-                    problemSet = PILS.getProblem();
+                    problemSet = CPLX6.getProblem();
                     break;
                 case 7:
-                    problemSet = NIHS.getProblem();
+                    problemSet = CPLX7.getProblem();
                     break;
+                case 8:
+                    problemSet = CPLX8.getProblem();
+                    break;
+                case 9:
+                    problemSet = CPLX9.getProblem();
+                    break;
+                case 10:
+                    problemSet = CPLX10.getProblem();
+                    break;
+//                case 1:
+//                    problemSet = CIHS.getProblem();
+//                    break;
+//                case 2:
+//                    problemSet = CIMS.getProblem();
+//                    break;
+//                case 3:
+//                    problemSet = CILS.getProblem();
+//                    break;
+//                case 4:
+//                    problemSet = PIHS.getProblem();
+//                    break;
+//                case 5:
+//                    problemSet = PIMS.getProblem();
+//                    break;
+//                case 6:
+//                    problemSet = PILS.getProblem();
+//                    break;
+//                case 7:
+//                    problemSet = NIHS.getProblem();
+//                    break;
+//                case 8:
+//                    problemSet = NIMS.getProblem();
+//                    break;
+//                case 9:
+//                    problemSet = NILS.getProblem();
+//                    break;
+//                case 1:
+//                    problemSet = CIHS.getProblem();
+//                    break;
+//                case 2:
+//                    problemSet = CIMS.getProblem();
+//                    break;
+//                case 3:
+//                    problemSet = CILS.getProblem();
+//                    break;
+//                case 4:
+//                    problemSet = PIHS.getProblem();
+//                    break;
+//                case 5:
+//                    problemSet = PIMS.getProblem();
+//                    break;
+//                case 6:
+//                    problemSet = PILS.getProblem();
+//                    break;
+//                case 7:
+//                    problemSet = NIHS.getProblem();
+//                    break;
 //                case 1:
 //                    problemSet = ETMOF1.getProblem();
 //                    break;
@@ -70,15 +128,15 @@ public class EMTET_main {
 //                case 7:
 //                    problemSet = ETMOF8.getProblem();
 //                    break;
-                case 8:
-                    problemSet = ETMOF3.getProblem();
-                    break;
-                case 9:
-                    problemSet = ETMOF9.getProblem();
-                    break;
-                case 10:
-                    problemSet = ETMOF10.getProblem();
-                    break;
+//                case 8:
+//                    problemSet = ETMOF3.getProblem();
+//                    break;
+//                case 9:
+//                    problemSet = ETMOF9.getProblem();
+//                    break;
+//                case 10:
+//                    problemSet = ETMOF10.getProblem();
+//                    break;
                 case 11:
                     problemSet = ETMOF11.getProblem();
                     break;
@@ -104,15 +162,18 @@ public class EMTET_main {
 //            System.out.println("taskNumber = "+taskNumber);
 
             String[] pf = new String[problemSet.size()];
+//            for (int i = 0; i < pf.length; i++){
+//                pf[i] = "PF/StaticPF/" + problemSet.get(i).getHType() + "_" + problemSet.get(i).getNumberOfObjectives() + "D.pf";
+//            }
             for (int i = 0; i < pf.length; i++){
-                pf[i] = "PF/StaticPF/" + problemSet.get(i).getHType() + "_" + problemSet.get(i).getNumberOfObjectives() + "D.pf";
+                pf[i] = "PF/cec2019/" + problemSet.get(i).getHType() + ".pf";
             }
 
             algorithm = new EMTET(problemSet);
 
             algorithm.setInputParameter("populationSize",100);
             algorithm.setInputParameter("maxEvaluations",100 * taskNumber * 1000);
-            algorithm.setInputParameter("transferNum",10);
+            algorithm.setInputParameter("transferNum",8);
 
             parameters = new HashMap();
             parameters.put("probability", 0.9);
@@ -191,7 +252,7 @@ public class EMTET_main {
 //                System.out.println("Average IGD for " + problemSet.get(i).getName()+ ": " + form.format(ave[i] / times));
                 System.out.println(form.format(ave[i] / times));
 
-            String path = "EMTET_2017F1-7.txt";
+            String path = "EMTET_CEC2021.txt";
             printIGD.printIGDtoText(path, cpIGD, taskNumber, times);
         }
 
